@@ -1,16 +1,57 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { getTasks } from '../db/tasks';
 
-const OverviewScreen = ({ navigation }) => (
-    <View style={styles.container}>
-        <Text>Welcome to the Overview Screen</Text>
-    </View>
-);
+const OverviewScreen = ({ navigation }) => {
+    const [tasks, setTasks] = useState([]);
+
+    const fetchTasks = async () => {
+        try {
+            const result = await getTasks();
+            setTasks(result);
+        } catch (error) {
+            console.error('Error al obtener tareas:', error);
+        }
+    };
+
+    useEffect(() => {
+        navigation.addListener('focus', fetchTasks);
+    }, [navigation]);
+
+    const renderTask = ({ item }) => (
+        <View style={styles.taskContainer}>
+            <Text style={styles.taskTitle}>{item.title}</Text>
+            <Text>{item.description}</Text>
+            <Text>{item.date}</Text>
+        </View>
+    );
+
+    return (
+        <View style={styles.container}>
+            <Text>Welcome to the Overview Screen</Text>
+            <Button title="Actualizar22" onPress={fetchTasks} />
+            <FlatList
+                data={tasks}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={renderTask}
+            />
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: 20,
+    },
+    taskContainer: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        marginBottom: 10,
+    },
+    taskTitle: {
+        fontWeight: 'bold',
     },
 });
 

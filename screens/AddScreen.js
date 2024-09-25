@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
+import AddTaskForm from "../components/AddTaskForm";
 
 const AddScreen = ({ navigation }) => (
     <View style={styles.container}>
-        <Text>Welcome to the Add Screen</Text>
+        <AddTaskForm />
     </View>
 );
 
