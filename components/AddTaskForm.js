@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import {addTask} from "../db/tasks";
+import { addTask } from "../db/tasks";
+import { globalStyles } from "../styles/globalStyles";
+import InputComponent from "./Input";
+import ButtonComponent from "./Button";
 
 const AddTaskForm = () => {
     const [title, setTitle] = useState('');
@@ -21,25 +24,28 @@ const AddTaskForm = () => {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="Título"
+            <InputComponent
+                label="Name"
+                placeholder="Add task name..."
                 value={title}
                 onChangeText={setTitle}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Descripción"
+            <InputComponent
+                label="Description"
+                placeholder="Add task description..."
                 value={description}
                 onChangeText={setDescription}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Fecha (YYYY-MM-DD)"
+            <InputComponent
+                label="Date"
+                placeholder="Add task date..."
                 value={date}
                 onChangeText={setDate}
             />
-            <Button title="Agregar Tarea" onPress={handleAddTask} />
+            <ButtonComponent
+                title="Create Task"
+                onPressFn={handleAddTask}
+            />
         </View>
     );
 };
@@ -50,13 +56,9 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
     },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        borderRadius: 5,
+    fullWidthInput: {
+        width: '100%',
+        marginBottom: 15,
     },
 });
 
