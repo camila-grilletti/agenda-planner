@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
-import AddTaskForm from "../components/AddTaskForm";
+import MyCalendar from "../components/MyCalendar";
 
 const TodayScreen = ({ navigation }) => (
     <View style={styles.container}>
-        <Text>Welcome to the Today Screen</Text>
+        <MyCalendar />
     </View>
 );
 
@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
     },
 });
 

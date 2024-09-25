@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
-import { getTasks } from '../db/tasks';
+import {deleteTask, editTask, getTasks} from '../db/tasks';
 
 const OverviewScreen = ({ navigation }) => {
     const [tasks, setTasks] = useState([]);
@@ -14,6 +14,11 @@ const OverviewScreen = ({ navigation }) => {
         }
     };
 
+    const handleDeleteTask = async (id) => {
+        await deleteTask(id)
+        .then(() => fetchTasks());
+    }
+
     useEffect(() => {
         navigation.addListener('focus', fetchTasks);
     }, [navigation]);
@@ -23,6 +28,7 @@ const OverviewScreen = ({ navigation }) => {
             <Text style={styles.taskTitle}>{item.title}</Text>
             <Text>{item.description}</Text>
             <Text>{item.date}</Text>
+            <Button title="Eliminar" onPress={() => handleDeleteTask(item.id)} />
         </View>
     );
 

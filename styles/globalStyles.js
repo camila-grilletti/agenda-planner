@@ -30,6 +30,8 @@ export const globalStyles = StyleSheet.create({
         fontSize: 16,
         color: colors.secondary,
         marginBottom: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     inputLabel: {
         fontSize: 13,
