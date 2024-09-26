@@ -1,18 +1,52 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../styles/globalStyles";
+import { getTasks, deleteTask } from "../db/tasks";
+import { useFocusEffect } from '@react-navigation/native';
+import TaskContainer from "./TasksContainer";
 
 const MyCalendar = () => {
-    const [selectedDate, setSelectedDate] = useState('');
-    const [tasks, setTasks] = useState({
-        '2024-09-25': [{ id: 1, task: 'Go to the gym' }, { id: 2, task: 'Buy groceries' }],
-        '2024-09-26': [{ id: 3, task: 'Doctor appointment' }],
-    });
+    const today = new Date().toISOString().split('T')[0];
+    const [selectedDate, setSelectedDate] = useState(today);
+    const [tasks, setTasks] = useState({});
 
     const handleDayPress = (day) => {
         setSelectedDate(day.dateString);
     };
+
+    const fetchTasks = async () => {
+        try {
+            const result = await getTasks();
+            const tasksByDate = result.reduce((acc, task) => {
+                const { date, id, title, description } = task;
+                if (!acc[date]) {
+                    acc[date] = [];
+                }
+                acc[date].push({ id, task: title, description: description });
+                return acc;
+            }, {});
+
+            setTasks(tasksByDate);
+        } catch (error) {
+            console.error('Error al obtener tareas:', error);
+        }
+    };
+
+    const handleDeleteTask = async (id) => {
+        try {
+            await deleteTask(id);
+            fetchTasks();
+        } catch (error) {
+            console.error('Error al eliminar tarea:', error);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchTasks();
+        }, [])
+    );
 
     return (
         <View style={styles.container}>
@@ -29,11 +63,7 @@ const MyCalendar = () => {
             <View style={styles.taskContainer}>
                 <Text style={styles.taskTitle}>Tasks for {selectedDate}:</Text>
                 {tasks[selectedDate] ? (
-                    <FlatList
-                        data={tasks[selectedDate]}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => <Text style={styles.taskItem}>{item.task}</Text>}
-                    />
+                    <TaskContainer tasks={tasks[selectedDate]} onDeleteTask={handleDeleteTask} />
                 ) : (
                     <Text style={styles.noTasks}>No tasks for this day</Text>
                 )}
@@ -48,16 +78,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     taskContainer: {
+        flex: 1,
         marginTop: 20,
         padding: 10,
     },
     taskTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-    },
-    taskItem: {
-        fontSize: 16,
-        paddingVertical: 5,
     },
     noTasks: {
         fontSize: 16,

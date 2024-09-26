@@ -8,6 +8,7 @@ export const colors = {
     inputBorder: '#ccc',
     inputBackground: '#f5f5f5',
     white: 'white',
+    whiteDescription: '#ebebeb',
 };
 
 export const globalStyles = StyleSheet.create({

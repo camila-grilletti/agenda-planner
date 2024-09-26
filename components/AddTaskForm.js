@@ -13,7 +13,7 @@ const AddTaskForm = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleAddTask = () => {
-        if (title && description && date) {
+        if (title && date) {
             addTask(title, description, date.toISOString().split('T')[0]);
             Alert.alert('Éxito', 'Tarea añadida exitosamente');
             setTitle('');
