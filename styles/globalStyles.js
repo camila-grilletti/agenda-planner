@@ -11,6 +11,9 @@ export const colors = {
     whiteTransparent: 'rgba(255, 255, 255, 0.7)',
     blackTransparent: 'rgba(0, 0, 0, 0.5)',
     whiteDescription: '#ebebeb',
+    greenState: '#66CDAA',
+    yellowState: '#FFC300',
+    redState: '#FF7F7F',
 };
 
 export const globalStyles = StyleSheet.create({

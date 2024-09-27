@@ -1,22 +1,24 @@
 import { useState, useCallback } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { getTasks, deleteTask } from "../db/tasks";
 import { useFocusEffect } from '@react-navigation/native';
 import TaskContainer from "../components/TasksContainer";
 import Header from "../components/Header";
 import MyText from "../components/MyText";
 import formatDate from "../formats/formats";
-import {colors, globalStyles} from "../styles/globalStyles";
+import { colors, globalStyles } from "../styles/globalStyles";
 import noTasksImg from '../assets/no-tasks.webp';
 
 const TodayScreen = ({ navigation }) => {
     const [tasks, setTasks] = useState([]);
+    const [loading, setLoading] = useState(true);
     const today = new Date().toISOString().split('T')[0];
 
     const formattedDate = formatDate(new Date());
 
     const fetchTasks = async () => {
         try {
+            setLoading(true); // Start loading
             const result = await getTasks();
             const tasksToday = result.filter(task => task.date === today).map(task => ({
                 id: task.id,
@@ -28,6 +30,8 @@ const TodayScreen = ({ navigation }) => {
             setTasks(tasksToday);
         } catch (error) {
             console.error('Error al obtener tareas:', error);
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -50,17 +54,24 @@ const TodayScreen = ({ navigation }) => {
         <View style={globalStyles.container}>
             <Header title="Today" />
             <MyText style={styles.dateText}>{formattedDate}</MyText>
-            {tasks.length > 0 ? (
-                <TaskContainer tasks={tasks} onDeleteTask={handleDeleteTask} />
-            ) : (
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={noTasksImg}
-                        style={styles.image}
-                        resizeMode="contain"
-                    />
-                    <MyText style={styles.textNoTask}>Enjoy your day! ❤️</MyText>
+
+            {loading ? (
+                <View style={styles.loaderContainer}>
+                    <ActivityIndicator size="large" color={colors.primary} />
                 </View>
+            ) : (
+                tasks.length > 0 ? (
+                    <TaskContainer tasks={tasks} onDeleteTask={handleDeleteTask} />
+                ) : (
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={noTasksImg}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+                        <MyText style={styles.textNoTask}>Enjoy your day! ❤️</MyText>
+                    </View>
+                )
             )}
         </View>
     );
@@ -87,13 +98,18 @@ const styles = StyleSheet.create({
     },
     textNoTask: {
         fontSize: 14,
-        marginTop: 5
+        marginTop: 5,
     },
     image: {
         width: 180,
         height: 180,
         borderRadius: 100,
         alignSelf: 'center',
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 
