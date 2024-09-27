@@ -3,6 +3,7 @@ import AppNavigator from "./navigation/AppNavigator";
 import { createTable } from './db/tasks';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import {TasksProvider} from "./context/TasksContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,5 +24,5 @@ export default function App() {
         return null;
     }
 
-    return <AppNavigator />;
+    return <TasksProvider><AppNavigator /></TasksProvider>;
 }

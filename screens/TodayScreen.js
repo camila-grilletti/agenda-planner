@@ -1,54 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useContext } from 'react';
 import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import { getTasks, deleteTask } from "../db/tasks";
-import { useFocusEffect } from '@react-navigation/native';
 import TaskContainer from "../components/TasksContainer";
 import Header from "../components/Header";
 import MyText from "../components/MyText";
 import formatDate from "../formats/formats";
 import { colors, globalStyles } from "../styles/globalStyles";
 import noTasksImg from '../assets/no-tasks.webp';
+import {TasksContext} from "../context/TasksContext";
 
 const TodayScreen = ({ navigation }) => {
-    const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
     const today = new Date().toISOString().split('T')[0];
-
     const formattedDate = formatDate(new Date());
 
-    const fetchTasks = async () => {
-        try {
-            setLoading(true); // Start loading
-            const result = await getTasks();
-            const tasksToday = result.filter(task => task.date === today).map(task => ({
-                id: task.id,
-                task: task.title,
-                description: task.description,
-                date: task.date
-            }));
-
-            setTasks(tasksToday);
-        } catch (error) {
-            console.error('Error al obtener tareas:', error);
-        } finally {
-            setLoading(false); // Stop loading
-        }
-    };
-
-    const handleDeleteTask = async (id) => {
-        try {
-            await deleteTask(id);
-            fetchTasks();
-        } catch (error) {
-            console.error('Error al eliminar tarea:', error);
-        }
-    };
-
-    useFocusEffect(
-        useCallback(() => {
-            fetchTasks();
-        }, [])
-    );
+    // Get tasks for today
+    const tasksToday = tasks[today] || [];
 
     return (
         <View style={globalStyles.container}>
@@ -60,8 +26,8 @@ const TodayScreen = ({ navigation }) => {
                     <ActivityIndicator size="large" color={colors.primary} />
                 </View>
             ) : (
-                tasks.length > 0 ? (
-                    <TaskContainer tasks={tasks} onDeleteTask={handleDeleteTask} />
+                tasksToday.length > 0 ? (
+                    <TaskContainer tasks={tasksToday} onDeleteTask={handleDeleteTask} />
                 ) : (
                     <View style={styles.imageContainer}>
                         <Image

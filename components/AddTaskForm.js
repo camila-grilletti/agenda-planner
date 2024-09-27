@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { View, StyleSheet, Alert, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTask } from "../db/tasks";
 import InputComponent from "./Input";
 import ButtonComponent from "./Button";
 import InputDate from "./InputDate";
+import { TasksContext } from '../context/TasksContext';
 
 const AddTaskForm = () => {
     const [title, setTitle] = useState('');
@@ -12,14 +13,21 @@ const AddTaskForm = () => {
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const handleAddTask = () => {
+    const { fetchTasks } = useContext(TasksContext);
+
+    const handleAddTask = async () => {
         if (title && date) {
-            addTask(title, description, date.toISOString().split('T')[0]);
-            Alert.alert('Éxito', 'Tarea añadida exitosamente');
-            setTitle('');
-            setDescription('');
+            try {
+                await addTask(title, description, date.toISOString().split('T')[0]);
+                Alert.alert('Success', 'Task added successfully');
+                setTitle('');
+                setDescription('');
+                fetchTasks();
+            } catch (error) {
+                Alert.alert('Error', 'There was a problem adding the task');
+            }
         } else {
-            Alert.alert('Error', 'Todos los campos son obligatorios');
+            Alert.alert('Error', 'All fields are required');
         }
     };
 
