@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { colors } from "../styles/globalStyles";
 import { CheckBox } from '@rneui/themed';
+import MyText from './MyText';
 
 const TaskItem = ({ task, onDelete }) => {
     const [isChecked, setIsChecked] = useState(false);
@@ -23,8 +24,10 @@ const TaskItem = ({ task, onDelete }) => {
                 containerStyle={styles.checkboxContainer}
             />
             <View style={styles.taskTextContainer}>
-                <Text style={styles.taskTextTitle}>{task.task}</Text>
-                {task.description && <Text style={styles.taskTextDescription}>{task.description}</Text>}
+                <MyText style={styles.taskTextTitle}>{task.task}</MyText>
+                {task.description && (
+                    <MyText style={styles.taskTextDescription}>{task.description}</MyText>
+                )}
             </View>
         </View>
     );
@@ -38,14 +41,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: colors.primary,
         borderRadius: 15,
-        marginBottom: 10, // Espacio entre items
+        marginBottom: 10,
     },
     checkboxContainer: {
         padding: 0,
         margin: 0,
         marginRight: 10,
         backgroundColor: 'transparent',
-        borderWidth: 0, // Quitar borde del checkbox
+        borderWidth: 0,
     },
     taskTextContainer: {
         flexDirection: 'column',
@@ -56,8 +59,7 @@ const styles = StyleSheet.create({
     },
     taskTextDescription: {
         fontSize: 13,
-        color: "rgba(255, 255, 255, 0.7)",
-
+        color: colors.whiteTransparent,
     },
 });
 

@@ -1,12 +1,19 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useState, useCallback } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
 import { getTasks, deleteTask } from "../db/tasks";
 import { useFocusEffect } from '@react-navigation/native';
 import TaskContainer from "../components/TasksContainer";
+import Header from "../components/Header";
+import MyText from "../components/MyText";
+import formatDate from "../formats/formats";
+import {colors, globalStyles} from "../styles/globalStyles";
+import noTasksImg from '../assets/no-tasks.webp';
 
 const TodayScreen = ({ navigation }) => {
     const [tasks, setTasks] = useState([]);
     const today = new Date().toISOString().split('T')[0];
+
+    const formattedDate = formatDate(new Date());
 
     const fetchTasks = async () => {
         try {
@@ -40,31 +47,53 @@ const TodayScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.taskTitle}>Tasks for Today:</Text>
+        <View style={globalStyles.container}>
+            <Header title="Today" />
+            <MyText style={styles.dateText}>{formattedDate}</MyText>
             {tasks.length > 0 ? (
                 <TaskContainer tasks={tasks} onDeleteTask={handleDeleteTask} />
             ) : (
-                <Text style={styles.noTasks}>No tasks for today</Text>
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={noTasksImg}
+                        style={styles.image}
+                        resizeMode="contain"
+                    />
+                    <MyText style={styles.textNoTask}>Enjoy your day! ❤️</MyText>
+                </View>
             )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        padding: 10,
-    },
     taskTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
     },
     noTasks: {
         fontSize: 16,
         color: 'gray',
+    },
+    dateText: {
+        fontSize: 14,
+        fontFamily: 'Poppins-Medium',
+        color: colors.blackTransparent,
+    },
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textNoTask: {
+        fontSize: 14,
+        marginTop: 5
+    },
+    image: {
+        width: 180,
+        height: 180,
+        borderRadius: 100,
+        alignSelf: 'center',
     },
 });
 

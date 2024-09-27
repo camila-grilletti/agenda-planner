@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, Alert, Text, Platform } from 'react-native';
+import { View, StyleSheet, Alert, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTask } from "../db/tasks";
 import InputComponent from "./Input";
@@ -70,10 +70,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         justifyContent: 'center',
-    },
-    dateText: {
-        fontSize: 16,
-        marginVertical: 10,
     },
 });
 

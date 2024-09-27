@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
+import MyText from './MyText';
 
 const InputComponent = ({ label, placeholder, value, onChangeText }) => {
     return (
         <View style={styles.inputContainer}>
-            {label && <Text style={globalStyles.inputLabel}>{label}</Text>}
+            {label && <MyText style={globalStyles.inputLabel}>{label}</MyText>}
             <TextInput
                 style={[
                     globalStyles.input,

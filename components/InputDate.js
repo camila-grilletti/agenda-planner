@@ -1,17 +1,19 @@
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {colors, globalStyles} from '../styles/globalStyles';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { colors, globalStyles } from '../styles/globalStyles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MyText from './MyText';
 
 const InputDate = ({ label, value, onPressFn }) => {
     return (
         <View style={styles.inputContainer}>
-            {label && <Text style={globalStyles.inputLabel}>{label}</Text>}
+            {label && <MyText style={globalStyles.inputLabel}>{label}</MyText>}
             <View style={[globalStyles.input, styles.row]}>
-                <Text style={styles.fullWidthInput}>
+                <MyText style={styles.fullWidthInput}>
                     {value}
-                </Text>
+                </MyText>
                 <TouchableOpacity onPress={onPressFn} style={styles.iconButton}>
-                    <Ionicons name="calendar-outline" size={17} color={colors.primary}/>
+                    <Ionicons name="calendar-outline" size={17} color={colors.primary} />
                 </TouchableOpacity>
             </View>
         </View>

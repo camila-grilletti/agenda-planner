@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useState, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../styles/globalStyles";
 import { getTasks, deleteTask } from "../db/tasks";
 import { useFocusEffect } from '@react-navigation/native';
 import TaskContainer from "./TasksContainer";
+import MyText from './MyText';
 
 const MyCalendar = () => {
     const today = new Date().toISOString().split('T')[0];
@@ -61,11 +62,10 @@ const MyCalendar = () => {
                 onDayPress={handleDayPress}
             />
             <View style={styles.taskContainer}>
-                <Text style={styles.taskTitle}>Tasks for {selectedDate}:</Text>
                 {tasks[selectedDate] ? (
                     <TaskContainer tasks={tasks[selectedDate]} onDeleteTask={handleDeleteTask} />
                 ) : (
-                    <Text style={styles.noTasks}>No tasks for this day</Text>
+                    <MyText style={styles.noTasks}>No tasks for this day</MyText>
                 )}
             </View>
         </View>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     },
     taskContainer: {
         flex: 1,
-        marginTop: 20,
         padding: 10,
     },
     taskTitle: {
