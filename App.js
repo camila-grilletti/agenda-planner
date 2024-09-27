@@ -3,7 +3,9 @@ import AppNavigator from "./navigation/AppNavigator";
 import { createTable } from './db/tasks';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import {TasksProvider} from "./context/TasksContext";
+import { TasksProvider } from "./context/TasksContext";
+import { StatusBar } from 'react-native';
+import {colors} from "./styles/globalStyles";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,5 +26,13 @@ export default function App() {
         return null;
     }
 
-    return <TasksProvider><AppNavigator /></TasksProvider>;
+    return (
+        <TasksProvider>
+            <StatusBar
+                backgroundColor={colors.backgroundGray}
+                barStyle="dark-content"
+            />
+            <AppNavigator />
+        </TasksProvider>
+    )
 }

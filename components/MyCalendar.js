@@ -66,7 +66,8 @@ const MyCalendar = () => {
                             textSectionTitleColor: colors.primary,
                             textMonthFontFamily: 'Poppins-Medium',
                             textDayFontFamily: 'Poppins',
-                            textDayHeaderFontFamily: 'Poppins'
+                            textDayHeaderFontFamily: 'Poppins',
+                            calendarBackground: 'transparent',
                         }}
                     />
                     <View style={styles.taskContainer}>
@@ -85,7 +86,6 @@ const MyCalendar = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     taskContainer: {
         flex: 1,
