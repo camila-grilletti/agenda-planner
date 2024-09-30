@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { getTasks, deleteTask } from "../db/tasks";
+import {getTasks, deleteTask, getTags, getTagId, getColorId} from "../db/tasks";
 
 export const TasksContext = createContext();
 
@@ -7,18 +7,37 @@ export const TasksProvider = ({ children }) => {
     const [tasks, setTasks] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const fetchTasks = async (load=true) => {
+    const fetchTasks = async (load = true) => {
         try {
             load && setLoading(true);
             const result = await getTasks();
-            const tasksByDate = result.reduce((acc, task) => {
-                const { date, id, title, description } = task;
+
+            const tasksByDate = await result.reduce(async (accPromise, task) => {
+                const acc = await accPromise;
+                const { date, id, title, description, tagId, colorId } = task;
+
                 if (!acc[date]) {
                     acc[date] = [];
                 }
-                acc[date].push({ id, task: title, description: description });
+
+                let tagName = null;
+                let tagColor = null;
+                let color = null;
+
+                if (tagId) {
+                    let tag = await getTagId(tagId);
+                    tagName = tag.name;
+                    let tagColorId = tag.colorId;
+                    tagColor = await getColorId(tagColorId);
+                }
+
+                if (colorId) {
+                    color = await getColorId(colorId);
+                }
+
+                acc[date].push({ id, task: title, description: description, tagName, tagColor, color });
                 return acc;
-            }, {});
+            }, Promise.resolve({}));
 
             setTasks(tasksByDate);
         } catch (error) {

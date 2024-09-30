@@ -1,11 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaView, StyleSheet, Platform } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import TodayScreen from "../screens/TodayScreen";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../styles/globalStyles";
 import AddScreen from "../screens/AddScreen";
 import OverviewScreen from "../screens/OverviewScreen";
+import AddColorForm from "../components/AddColorForm";
+import AddTagForm from "../components/AddTagForm";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +24,7 @@ export default function AppNavigator() {
                                 iconName = focused
                                     ? 'calendar-number'
                                     : 'calendar-number-outline';
-                            } else if (route.name === 'Add') {
+                            } else if (route.name === 'Add' || route.name === 'Tag' || route.name === 'Color') {
                                 iconName = 'add-circle';
                                 size = 50;
                                 color = colors.primary;
@@ -59,6 +61,18 @@ export default function AppNavigator() {
                             tabBarShowLabel: false,
                         }}
                         component={OverviewScreen}
+                    />
+                    <Tab.Screen name="Tag"
+                        options={{
+                            tabBarShowLabel: false,
+                        }}
+                        component={AddTagForm}
+                    />
+                    <Tab.Screen name="Color"
+                        options={{
+                            tabBarShowLabel: false,
+                        }}
+                        component={AddColorForm}
                     />
                 </Tab.Navigator>
             </NavigationContainer>

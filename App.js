@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import AppNavigator from "./navigation/AppNavigator";
-import { createTable } from './db/tasks';
+import {createTable, dropTables} from './db/tasks';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { TasksProvider } from "./context/TasksContext";

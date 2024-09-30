@@ -4,6 +4,17 @@ import { colors } from "../styles/globalStyles";
 import { CheckBox } from '@rneui/themed';
 import MyText from './MyText';
 
+const getTextColorForBackground = (backgroundColor) => {
+    const hex = backgroundColor.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    return brightness > 128 ? 'black' : 'white';
+};
+
 const TaskItem = ({ task, onDelete }) => {
     const [isChecked, setIsChecked] = useState(false);
 
@@ -12,8 +23,10 @@ const TaskItem = ({ task, onDelete }) => {
         if (!isChecked) onDelete(task.id);
     };
 
+    const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : null;
+
     return (
-        <View style={styles.itemContainer}>
+        <View style={[styles.itemContainer]}>
             <CheckBox
                 checked={isChecked}
                 onPress={handleCheckboxPress}
@@ -25,6 +38,11 @@ const TaskItem = ({ task, onDelete }) => {
             />
             <View style={styles.taskTextContainer}>
                 <MyText style={styles.taskTextTitle}>{task.task}</MyText>
+                {task.tagName && (
+                    <View style={[styles.taskTag, { backgroundColor: task.tagColor }]}>
+                        <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>
+                    </View>
+                )}
                 {task.description && (
                     <MyText style={styles.taskTextDescription}>{task.description}</MyText>
                 )}
@@ -60,6 +78,13 @@ const styles = StyleSheet.create({
     taskTextDescription: {
         fontSize: 13,
         color: colors.whiteTransparent,
+    },
+    taskTag: {
+        paddingVertical: 1,
+        paddingHorizontal: 4,
+        borderRadius: 5,
+        alignSelf: 'flex-start',
+        marginBottom: 5
     },
 });
 
