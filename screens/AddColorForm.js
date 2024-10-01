@@ -1,11 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {View, StyleSheet, Alert, Text, TouchableOpacity} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
 import SmallHeader from "../components/SmallHeader";
-import {globalStyles} from "../styles/globalStyles";
+import { globalStyles } from "../styles/globalStyles";
 import MyText from "../components/MyText";
-import {ColorsContext} from "../context/ColorsContext";
+import { ColorsContext } from "../context/ColorsContext";
 import GoBackButton from "../components/GoBackButton";
+import Toast from 'react-native-toast-message';
 
 const AddColorForm = () => {
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
@@ -15,13 +16,34 @@ const AddColorForm = () => {
         if (selectedColor.trim()) {
             try {
                 await createColor(selectedColor);
-                Alert.alert('Success', 'Color added successfully');
+                Toast.show({
+                    type: 'success',
+                    text1: 'Success',
+                    text2: 'Color added successfully',
+                    position: 'bottom',
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 13 },
+                });
                 setSelectedColor('#FFFFFF');
             } catch (error) {
-                Alert.alert('Error', 'There was a problem adding the color');
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: 'There was a problem adding the color',
+                    position: 'bottom',
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 13 },
+                });
             }
         } else {
-            Alert.alert('Error', 'Please select a color');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please select a color',
+                position: 'bottom',
+                text1Style: { fontSize: 16 },
+                text2Style: { fontSize: 13 },
+            });
         }
     };
 
@@ -30,7 +52,7 @@ const AddColorForm = () => {
             <View style={styles.containerSmallHeader}>
                 <GoBackButton />
                 <SmallHeader title="Create Color" />
-                <TouchableOpacity style={[globalStyles.link, {position: 'absolute', right: 0}]} onPress={handleAddColor}>
+                <TouchableOpacity style={[globalStyles.link, { position: 'absolute', right: 0 }]} onPress={handleAddColor}>
                     <MyText style={globalStyles.linkText}>Done</MyText>
                 </TouchableOpacity>
             </View>
@@ -51,6 +73,8 @@ const AddColorForm = () => {
                     style={styles.colorPicker}
                 />
             </View>
+
+            <Toast />
         </View>
     );
 };

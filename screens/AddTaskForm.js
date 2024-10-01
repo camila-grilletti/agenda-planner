@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { View, StyleSheet, Alert, Platform, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Platform, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTask } from "../db/tasks";
 import InputComponent from "../components/Input";
@@ -12,7 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 import ColorSelect from "../components/ColorSelect";
 import SmallHeader from "../components/SmallHeader";
 import MyText from "../components/MyText";
-import {TagsContext} from "../context/TagsContext";
+import { TagsContext } from "../context/TagsContext";
+import Toast from 'react-native-toast-message';
 
 const AddTaskForm = () => {
     const [title, setTitle] = useState('');
@@ -40,7 +41,14 @@ const AddTaskForm = () => {
                     colorId,
                     time.toISOString().split('T')[1].slice(0, 5)
                 );
-                Alert.alert('Success', 'Task added successfully');
+                Toast.show({
+                    type: 'success',
+                    text1: 'Success',
+                    text2: 'Task added successfully',
+                    position: 'bottom',
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 13 },
+                });
                 setTitle('');
                 setDescription('');
                 setTagId(null);
@@ -48,10 +56,24 @@ const AddTaskForm = () => {
                 setTime(new Date());
                 fetchTasks();
             } catch (error) {
-                Alert.alert('Error', 'There was a problem adding the task');
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: 'There was a problem adding the task',
+                    position: 'bottom',
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 13 },
+                });
             }
         } else {
-            Alert.alert('Error', 'All fields are required');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'All fields are required',
+                position: 'bottom',
+                text1Style: { fontSize: 16 },
+                text2Style: { fontSize: 13 },
+            });
         }
     };
 
@@ -77,7 +99,7 @@ const AddTaskForm = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.containerSmallHeader}>
                     <SmallHeader title="Create Task" />
-                    <TouchableOpacity style={[globalStyles.link, {position: 'absolute', right: 0}]} onPress={handleAddTask}>
+                    <TouchableOpacity style={[globalStyles.link, { position: 'absolute', right: 0 }]} onPress={handleAddTask}>
                         <MyText style={globalStyles.linkText}>Done</MyText>
                     </TouchableOpacity>
                 </View>
@@ -148,6 +170,8 @@ const AddTaskForm = () => {
 
                 <ColorSelect onChangeInput={setColorId} />
             </ScrollView>
+
+            <Toast />
         </KeyboardAvoidingView>
     );
 };
