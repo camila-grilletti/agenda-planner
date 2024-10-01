@@ -1,12 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Alert, Platform } from 'react-native';
+import { useState, useContext, useEffect } from 'react';
+import { View, StyleSheet, Alert, Platform, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {addTask, getColors, getTags} from "../db/tasks";
+import { addTask, getColors, getTags } from "../db/tasks";
 import InputComponent from "./Input";
 import ButtonComponent from "./Button";
 import InputDate from "./InputDate";
 import { TasksContext } from '../context/TasksContext';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { colors } from "../styles/globalStyles";
+import { useNavigation } from '@react-navigation/native';
 
 const fetchTags = async () => {
     return await getTags();
@@ -28,6 +31,8 @@ const AddTaskForm = () => {
     const [colors, setColors] = useState([]);
 
     const { fetchTasks } = useContext(TasksContext);
+
+    const navigation = useNavigation();
 
     // Fetch tags and colors on mount
     useEffect(() => {
@@ -110,37 +115,49 @@ const AddTaskForm = () => {
             )}
 
             {/* Tag Picker */}
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={tagId}
-                    onValueChange={(itemValue) => setTagId(itemValue)}
-                    style={styles.picker}
-                >
-                    <Picker.Item label="Select a tag..." value={null} />
-                    {tags.map(tag => (
-                        <Picker.Item key={tag.id} label={tag.name} value={tag.id} />
-                    ))}
-                </Picker>
+            <View style={styles.pickerContainerMain}>
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={tagId}
+                        onValueChange={(itemValue) => setTagId(itemValue)}
+                        style={styles.picker}
+                        dropdownIconColor={colors.primary}
+                    >
+                        <Picker.Item label="Select a tag..." value={null} />
+                        {tags.map(tag => (
+                            <Picker.Item key={tag.id} label={tag.name} value={tag.id} />
+                        ))}
+                    </Picker>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
+                    <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                </TouchableOpacity>
             </View>
 
             {/* Color Picker */}
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={colorId}
-                    onValueChange={(itemValue) => setColorId(itemValue)}
-                    style={styles.picker}
-                >
-                    <Picker.Item label="Select a color..." value={null} />
-                    {colors.map(color => (
-                        <Picker.Item key={color.id} label={color.name} value={color.id} />
-                    ))}
-                </Picker>
+            <View style={styles.pickerContainerMain}>
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={colorId}
+                        onValueChange={(itemValue) => setColorId(itemValue)}
+                        style={styles.picker}
+                        dropdownIconColor={colors.primary}
+                    >
+                        <Picker.Item label="Select a color..." value={null} />
+                        {colors.map(color => (
+                            <Picker.Item key={color.id} label={color.name} value={color.id} />
+                        ))}
+                    </Picker>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Color')}>
+                    <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                </TouchableOpacity>
             </View>
 
             {/* Time Picker */}
             <InputDate
                 label="Time"
-                value={time.toISOString().split('T')[1].slice(0, 5)} // Format as HH:mm
+                value={time.toISOString().split('T')[1].slice(0, 5)}
                 onPressFn={() => setShowDatePicker(true)}
             />
             {showDatePicker && (
@@ -166,16 +183,27 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
     },
+    pickerContainerMain: {
+        flexDirection: "row",
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     pickerContainer: {
+        flex: 1,
         marginVertical: 10,
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
+        overflow: 'hidden',
     },
     picker: {
         height: 50,
         width: '100%',
     },
+    pickerIcon : {
+        color: colors.primary,
+        marginLeft: 10
+    }
 });
 
 export default AddTaskForm;
