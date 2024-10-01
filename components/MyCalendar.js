@@ -1,14 +1,14 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../styles/globalStyles";
 import TaskContainer from "./TasksContainer";
 import MyText from './MyText';
-import {TasksContext} from "../context/TasksContext";
+import { TasksContext } from "../context/TasksContext";
 
 const MyCalendar = () => {
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA')); // Correcto formato YYYY-MM-DD
 
     const handleDayPress = (day) => {
         setSelectedDate(day.dateString);

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Alert, Platform, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Alert, Platform, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTask, getColors, getTags } from "../db/tasks";
 import InputComponent from "./Input";
@@ -55,7 +55,7 @@ const AddTaskForm = () => {
                     date.toISOString().split('T')[0],
                     tagId,
                     colorId,
-                    time.toISOString().split('T')[1].slice(0, 5) // Format time as HH:mm
+                    time.toISOString().split('T')[1].slice(0, 5)
                 );
                 Alert.alert('Success', 'Task added successfully');
                 setTitle('');
@@ -87,101 +87,104 @@ const AddTaskForm = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <InputComponent
-                label="Name"
-                placeholder="Add task name..."
-                value={title}
-                onChangeText={setTitle}
-            />
-            <InputComponent
-                label="Description"
-                placeholder="Add task description..."
-                value={description}
-                onChangeText={setDescription}
-            />
-            <InputDate
-                label="Date"
-                value={date.toISOString().split('T')[0]}
-                onPressFn={() => setShowDatePicker(true)}
-            />
-            {showDatePicker && (
-                <DateTimePicker
-                    value={date}
-                    mode="date"
-                    display="default"
-                    onChange={handleDateChange}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={'padding'}
+        >
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <InputComponent
+                    label="Name"
+                    placeholder="Add task name..."
+                    value={title}
+                    onChangeText={setTitle}
                 />
-            )}
-
-            {/* Tag Picker */}
-            <View style={styles.pickerContainerMain}>
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={tagId}
-                        onValueChange={(itemValue) => setTagId(itemValue)}
-                        style={styles.picker}
-                        dropdownIconColor={colors.primary}
-                    >
-                        <Picker.Item label="Select a tag..." value={null} />
-                        {tags.map(tag => (
-                            <Picker.Item key={tag.id} label={tag.name} value={tag.id} />
-                        ))}
-                    </Picker>
-                </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
-                    <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
-                </TouchableOpacity>
-            </View>
-
-            {/* Color Picker */}
-            <View style={styles.pickerContainerMain}>
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={colorId}
-                        onValueChange={(itemValue) => setColorId(itemValue)}
-                        style={styles.picker}
-                        dropdownIconColor={colors.primary}
-                    >
-                        <Picker.Item label="Select a color..." value={null} />
-                        {colors.map(color => (
-                            <Picker.Item key={color.id} label={color.name} value={color.id} />
-                        ))}
-                    </Picker>
-                </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Color')}>
-                    <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
-                </TouchableOpacity>
-            </View>
-
-            {/* Time Picker */}
-            <InputDate
-                label="Time"
-                value={time.toISOString().split('T')[1].slice(0, 5)}
-                onPressFn={() => setShowDatePicker(true)}
-            />
-            {showDatePicker && (
-                <DateTimePicker
-                    value={time}
-                    mode="time"
-                    display="default"
-                    onChange={handleTimeChange}
+                <InputComponent
+                    label="Description"
+                    placeholder="Add task description..."
+                    value={description}
+                    onChangeText={setDescription}
                 />
-            )}
+                <InputDate
+                    label="Date"
+                    value={date.toISOString().split('T')[0]}
+                    onPressFn={() => setShowDatePicker(true)}
+                />
+                {showDatePicker && (
+                    <DateTimePicker
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={handleDateChange}
+                    />
+                )}
 
-            <ButtonComponent
-                title="Create Task"
-                onPressFn={handleAddTask}
-            />
-        </View>
+                {/* Tag Picker */}
+                <View style={styles.pickerContainerMain}>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={tagId}
+                            onValueChange={(itemValue) => setTagId(itemValue)}
+                            style={styles.picker}
+                            dropdownIconColor={colors.primary}
+                        >
+                            <Picker.Item label="Select a tag..." value={null} />
+                            {tags.map(tag => (
+                                <Picker.Item key={tag.id} label={tag.name} value={tag.id} />
+                            ))}
+                        </Picker>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
+                        <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Color Picker */}
+                <View style={styles.pickerContainerMain}>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={colorId}
+                            onValueChange={(itemValue) => setColorId(itemValue)}
+                            style={styles.picker}
+                            dropdownIconColor={colors.primary}
+                        >
+                            <Picker.Item label="Select a color..." value={null} />
+                            {colors.map(color => (
+                                <Picker.Item key={color.id} label={color.name} value={color.id} />
+                            ))}
+                        </Picker>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('Color')}>
+                        <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Time Picker */}
+                <InputDate
+                    label="Time"
+                    value={time.toISOString().split('T')[1].slice(0, 5)}
+                    onPressFn={() => setShowDatePicker(true)}
+                />
+                {showDatePicker && (
+                    <DateTimePicker
+                        value={time}
+                        mode="time"
+                        display="default"
+                        onChange={handleTimeChange}
+                    />
+                )}
+
+                <ButtonComponent
+                    title="Create Task"
+                    onPressFn={handleAddTask}
+                />
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    scrollContainer: {
         padding: 20,
-        justifyContent: 'center',
     },
     pickerContainerMain: {
         flexDirection: "row",
@@ -202,8 +205,8 @@ const styles = StyleSheet.create({
     },
     pickerIcon : {
         color: colors.primary,
-        marginLeft: 10
-    }
+        marginLeft: 10,
+    },
 });
 
 export default AddTaskForm;
