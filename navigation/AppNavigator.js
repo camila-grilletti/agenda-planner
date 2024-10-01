@@ -8,8 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../styles/globalStyles";
 import AddScreen from "../screens/AddScreen";
 import OverviewScreen from "../screens/OverviewScreen";
-import AddColorForm from "../components/AddColorForm";
-import AddTagForm from "../components/AddTagForm";
+import AddColorForm from "../screens/AddColorForm";
+import AddTagForm from "../screens/AddTagForm";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

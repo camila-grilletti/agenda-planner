@@ -1,12 +1,11 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Alert, Text, TouchableOpacity} from 'react-native';
-import { addColor } from "../db/tasks";
 import ColorPicker from 'react-native-wheel-color-picker';
-import GoBackButton from "./GoBackButton";
-import SmallHeader from "./SmallHeader";
+import SmallHeader from "../components/SmallHeader";
 import {globalStyles} from "../styles/globalStyles";
-import MyText from "./MyText";
+import MyText from "../components/MyText";
 import {ColorsContext} from "../context/ColorsContext";
+import GoBackButton from "../components/GoBackButton";
 
 const AddColorForm = () => {
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');

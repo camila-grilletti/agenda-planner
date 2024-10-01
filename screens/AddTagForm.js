@@ -1,11 +1,11 @@
 import {useContext, useState} from 'react';
 import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
-import GoBackButton from "./GoBackButton";
-import InputName from "./InputName";
-import SmallHeader from "./SmallHeader";
+import GoBackButton from "../components/GoBackButton";
+import InputName from "../components/InputName";
+import SmallHeader from "../components/SmallHeader";
 import {globalStyles} from "../styles/globalStyles";
-import MyText from "./MyText";
-import ColorSelect from "./ColorSelect";
+import MyText from "../components/MyText";
+import ColorSelect from "../components/ColorSelect";
 import {TagsContext} from "../context/TagsContext";
 
 const AddTagForm = () => {

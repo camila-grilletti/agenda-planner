@@ -2,16 +2,16 @@ import { useState, useContext } from 'react';
 import { View, StyleSheet, Alert, Platform, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTask } from "../db/tasks";
-import InputComponent from "./Input";
-import InputDate from "./InputDate";
+import InputComponent from "../components/Input";
+import InputDate from "../components/InputDate";
 import { TasksContext } from '../context/TasksContext';
 import { Picker } from '@react-native-picker/picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors, globalStyles } from "../styles/globalStyles";
 import { useNavigation } from '@react-navigation/native';
-import ColorSelect from "./ColorSelect";
-import SmallHeader from "./SmallHeader";
-import MyText from "./MyText";
+import ColorSelect from "../components/ColorSelect";
+import SmallHeader from "../components/SmallHeader";
+import MyText from "../components/MyText";
 import {TagsContext} from "../context/TagsContext";
 
 const AddTaskForm = () => {

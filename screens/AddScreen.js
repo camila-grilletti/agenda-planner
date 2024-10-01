@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import AddTaskForm from "../components/AddTaskForm";
+import AddTaskForm from "./AddTaskForm";
 
 const AddScreen = ({ navigation }) => (
     <View style={styles.container}>
