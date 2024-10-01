@@ -1,46 +1,69 @@
-import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import {addColor} from "../db/tasks";
+import React, { useState } from 'react';
+import { View, Button, StyleSheet, Alert, Text } from 'react-native';
+import { addColor } from "../db/tasks";
+import ColorPicker from 'react-native-wheel-color-picker';
 
 const AddColorForm = () => {
-    const [colorName, setColorName] = useState('');
+    const [selectedColor, setSelectedColor] = useState('#FFFFFF');
 
     const handleAddColor = async () => {
-        if (colorName.trim()) {
+        if (selectedColor.trim()) {
             try {
-                await addColor(colorName);
+                await addColor(selectedColor);
                 Alert.alert('Success', 'Color added successfully');
-                setColorName('');
+                setSelectedColor('#FFFFFF');
             } catch (error) {
                 Alert.alert('Error', 'There was a problem adding the color');
             }
         } else {
-            Alert.alert('Error', 'Please enter a color name');
+            Alert.alert('Error', 'Please select a color');
         }
     };
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter color name..."
-                value={colorName}
-                onChangeText={setColorName}
+            <Text style={[styles.colorText, { color: selectedColor }]}>
+                Selected Color: {selectedColor}
+            </Text>
+
+            <ColorPicker
+                color={selectedColor}
+                onColorChange={(color) => setSelectedColor(color)}
+                thumbSize={30}
+                sliderSize={40}
+                noSnap={true}
+                row={false}
+                swatches={false}
+                style={styles.colorPicker}
             />
-            <Button title="Add Color" onPress={handleAddColor} />
+
+            <View style={styles.buttonContainer}>
+                <Button title="Add Color" onPress={handleAddColor} />
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         padding: 20,
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        marginBottom: 10,
+    colorText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    colorPicker: {
+        width: 250,
+        height: 250,
+        marginBottom: 30,
+    },
+    buttonContainer: {
+        marginTop: 20,
+        width: '80%',
     },
 });
 

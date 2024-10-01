@@ -1,8 +1,8 @@
-import {useState, useCallback} from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import {addTag, getColors} from "../db/tasks";
-import {Picker} from "@react-native-picker/picker";
-import {useFocusEffect} from "@react-navigation/native";
+import { useState, useCallback } from 'react';
+import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
+import { addTag, getColors } from "../db/tasks";
+import { Picker } from "@react-native-picker/picker";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AddTagForm = () => {
     const [tagName, setTagName] = useState('');
@@ -39,6 +39,11 @@ const AddTagForm = () => {
         }
     };
 
+    const getColorById = (id) => {
+        const color = colors.find(c => c.id === id);
+        return color ? color.name : '#FFFFFF';
+    };
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -55,7 +60,12 @@ const AddTagForm = () => {
                 >
                     <Picker.Item label="Select a color..." value={null} />
                     {colors.map(color => (
-                        <Picker.Item key={color.id} label={color.name} value={color.id} />
+                        <Picker.Item
+                            key={color.id}
+                            label={color.name}
+                            value={color.id}
+                            color={color.name}
+                        />
                     ))}
                 </Picker>
             </View>
@@ -73,16 +83,33 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         padding: 10,
         marginBottom: 10,
+        borderRadius: 5,
     },
     pickerContainer: {
         marginVertical: 10,
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 5,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: '#f0f0f0',
     },
     picker: {
         height: 50,
         width: '100%',
+    },
+    pickerItem: {
+        height: 50,
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    colorCircle: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
     },
 });
 

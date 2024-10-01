@@ -24,9 +24,10 @@ const TaskItem = ({ task, onDelete }) => {
     };
 
     const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : null;
+    const itemColor = task.color ? getTextColorForBackground(task.color) : colors.white;
 
     return (
-        <View style={[styles.itemContainer]}>
+        <View style={[styles.itemContainer, {backgroundColor: task.color || colors.primary}]}>
             <CheckBox
                 checked={isChecked}
                 onPress={handleCheckboxPress}
@@ -37,14 +38,14 @@ const TaskItem = ({ task, onDelete }) => {
                 containerStyle={styles.checkboxContainer}
             />
             <View style={styles.taskTextContainer}>
-                <MyText style={styles.taskTextTitle}>{task.task}</MyText>
+                <MyText style={[styles.taskTextTitle, {color: itemColor}]}>{task.task}</MyText>
                 {task.tagName && (
                     <View style={[styles.taskTag, { backgroundColor: task.tagColor }]}>
                         <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>
                     </View>
                 )}
                 {task.description && (
-                    <MyText style={styles.taskTextDescription}>{task.description}</MyText>
+                    <MyText style={[styles.taskTextDescription, {color: itemColor}]}>{task.description}</MyText>
                 )}
             </View>
         </View>
