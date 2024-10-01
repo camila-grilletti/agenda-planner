@@ -1,8 +1,13 @@
 import { useState, useCallback } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
+import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import { addTag, getColors } from "../db/tasks";
 import { Picker } from "@react-native-picker/picker";
 import { useFocusEffect } from "@react-navigation/native";
+import GoBackButton from "./GoBackButton";
+import InputName from "./InputName";
+import SmallHeader from "./SmallHeader";
+import {globalStyles} from "../styles/globalStyles";
+import MyText from "./MyText";
 
 const AddTagForm = () => {
     const [tagName, setTagName] = useState('');
@@ -39,19 +44,16 @@ const AddTagForm = () => {
         }
     };
 
-    const getColorById = (id) => {
-        const color = colors.find(c => c.id === id);
-        return color ? color.name : '#FFFFFF';
-    };
-
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter tag name..."
-                value={tagName}
-                onChangeText={setTagName}
-            />
+            <View style={styles.containerSmallHeader}>
+                <GoBackButton />
+                <SmallHeader title="Create Tag" />
+                <TouchableOpacity style={[globalStyles.link, {position: 'absolute', right: 0}]} onPress={handleAddTag}>
+                    <MyText style={globalStyles.linkText}>Done</MyText>
+                </TouchableOpacity>
+            </View>
+            <InputName placeholder="Tag name..." value={tagName} onChangeInput={setTagName} />
             <View style={styles.pickerContainer}>
                 <Picker
                     selectedValue={colorId}
@@ -69,7 +71,6 @@ const AddTagForm = () => {
                     ))}
                 </Picker>
             </View>
-            <Button title="Add Tag" onPress={handleAddTag} />
         </View>
     );
 };
@@ -111,6 +112,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
     },
+    containerSmallHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20
+    }
 });
 
 export default AddTagForm;

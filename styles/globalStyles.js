@@ -59,6 +59,16 @@ export const globalStyles = StyleSheet.create({
         alignItems: 'center',
         fontFamily: 'Poppins',
     },
+    link: {
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    linkText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins',
+    },
     buttonPressed: {
         backgroundColor: colors.secondary,
     },
@@ -73,6 +83,10 @@ export const globalStyles = StyleSheet.create({
         fontWeight: '600',
         fontFamily: 'Poppins-Medium',
         marginBottom: -5,
+    },
+    textSmallHeader: {
+        fontSize: 20,
+        fontFamily: 'Poppins',
     },
     textSubHeader: {
         fontSize: 18,
