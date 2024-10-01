@@ -1,38 +1,22 @@
-import { useState, useCallback } from 'react';
+import {useContext, useState} from 'react';
 import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
-import { addTag, getColors } from "../db/tasks";
-import { Picker } from "@react-native-picker/picker";
-import { useFocusEffect } from "@react-navigation/native";
 import GoBackButton from "./GoBackButton";
 import InputName from "./InputName";
 import SmallHeader from "./SmallHeader";
 import {globalStyles} from "../styles/globalStyles";
 import MyText from "./MyText";
+import ColorSelect from "./ColorSelect";
+import {TagsContext} from "../context/TagsContext";
 
 const AddTagForm = () => {
+    const { createTag } = useContext(TagsContext);
     const [tagName, setTagName] = useState('');
     const [colorId, setColorId] = useState(null);
-    const [colors, setColors] = useState([]);
-
-    useFocusEffect(
-        useCallback(() => {
-            const fetchData = async () => {
-                try {
-                    const colorsData = await getColors();
-                    setColors(colorsData);
-                } catch (error) {
-                    console.error('Error fetching colors:', error);
-                }
-            };
-
-            fetchData();
-        }, [])
-    );
 
     const handleAddTag = async () => {
         if (tagName.trim() && colorId) {
             try {
-                await addTag(tagName, colorId);
+                await createTag(tagName, colorId);
                 Alert.alert('Success', 'Tag added successfully');
                 setTagName('');
                 setColorId(null);
@@ -54,23 +38,7 @@ const AddTagForm = () => {
                 </TouchableOpacity>
             </View>
             <InputName placeholder="Tag name..." value={tagName} onChangeInput={setTagName} />
-            <View style={styles.pickerContainer}>
-                <Picker
-                    selectedValue={colorId}
-                    onValueChange={(itemValue) => setColorId(itemValue)}
-                    style={styles.picker}
-                >
-                    <Picker.Item label="Select a color..." value={null} />
-                    {colors.map(color => (
-                        <Picker.Item
-                            key={color.id}
-                            label={color.name}
-                            value={color.id}
-                            color={color.name}
-                        />
-                    ))}
-                </Picker>
-            </View>
+            <ColorSelect onChangeInput={setColorId} />
         </View>
     );
 };

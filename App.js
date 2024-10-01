@@ -6,6 +6,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { TasksProvider } from "./context/TasksContext";
 import { StatusBar } from 'react-native';
 import {colors} from "./styles/globalStyles";
+import {ColorsProvider} from "./context/ColorsContext";
+import {TagsProvider} from "./context/TagsContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,11 +30,15 @@ export default function App() {
 
     return (
         <TasksProvider>
-            <StatusBar
-                backgroundColor={colors.backgroundGray}
-                barStyle="dark-content"
-            />
-            <AppNavigator />
+            <TagsProvider>
+                <ColorsProvider>
+                    <StatusBar
+                        backgroundColor={colors.backgroundGray}
+                        barStyle="dark-content"
+                    />
+                    <AppNavigator />
+                </ColorsProvider>
+            </TagsProvider>
         </TasksProvider>
     )
 }

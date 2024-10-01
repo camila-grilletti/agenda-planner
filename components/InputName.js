@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     inputName: {
         fontSize: 30,
         fontFamily: 'Poppins',
+        height: 45,
+        paddingVertical: 0,
+        textAlignVertical: 'center',
     }
 });
 

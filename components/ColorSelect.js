@@ -1,0 +1,76 @@
+import { StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ColorsContext } from "../context/ColorsContext";
+import { useContext, useState } from "react";
+import {useNavigation} from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {colors} from "../styles/globalStyles";
+
+const ColorSelect = ({ onChangeInput }) => {
+    const { allColors } = useContext(ColorsContext);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const navigation = useNavigation();
+
+    const handleColorPress = (colorId) => {
+        setSelectedColor(colorId);
+        onChangeInput(colorId);
+    };
+
+    return (
+        <ScrollView horizontal contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.container}>
+                {allColors.map((color) => (
+                    <TouchableOpacity
+                        key={color.id}
+                        onPress={() => handleColorPress(color.id)}
+                    >
+                        <View
+                            style={[
+                                styles.circleColor,
+                                { backgroundColor: color.name },
+                                selectedColor === color.id && styles.selectedBorder
+                            ]}
+                        />
+                    </TouchableOpacity>
+                ))}
+                <TouchableOpacity
+                    key='create-color'
+                    onPress={() => navigation.navigate('Color')}
+                >
+                    <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
+    );
+};
+
+const styles = StyleSheet.create({
+    scrollContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginVertical: 10,
+        maxHeight: 60,
+    },
+    circleColor: {
+        width: 25,
+        height: 25,
+        borderRadius: 30,
+        marginRight: 5,
+        marginBottom: 5,
+    },
+    selectedBorder: {
+        borderWidth: 2,
+        borderColor: '#000',
+    },
+    pickerIcon : {
+        width: 25,
+        height: 25,
+        color: colors.primary,
+        textAlign: 'center'
+    },
+});
+
+export default ColorSelect;

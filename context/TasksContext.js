@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import {getTasks, deleteTask, getTags, getTagId, getColorId} from "../db/tasks";
+import {getTasks, deleteTask, getTagId, getColorId} from "../db/tasks";
 
 export const TasksContext = createContext();
 
