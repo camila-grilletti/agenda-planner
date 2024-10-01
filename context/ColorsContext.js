@@ -19,7 +19,7 @@ export const ColorsProvider = ({ children }) => {
         }
     };
 
-    const handleAddColor = async (name) => {
+    const createColor = async (name) => {
         try {
             await addColor(name);
             fetchColors(false);
@@ -32,7 +32,7 @@ export const ColorsProvider = ({ children }) => {
         fetchColors();
     }, []);
 
-    const value = { allColors, loading, fetchColors, handleAddColor };
+    const value = { allColors, loading, fetchColors, createColor };
 
     return (
         <ColorsContext.Provider value={value}>

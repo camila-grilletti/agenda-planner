@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { View, Button, StyleSheet, Alert, Text } from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, StyleSheet, Alert, Text, TouchableOpacity} from 'react-native';
 import { addColor } from "../db/tasks";
 import ColorPicker from 'react-native-wheel-color-picker';
+import GoBackButton from "./GoBackButton";
+import SmallHeader from "./SmallHeader";
+import {globalStyles} from "../styles/globalStyles";
+import MyText from "./MyText";
+import {ColorsContext} from "../context/ColorsContext";
 
 const AddColorForm = () => {
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
+    const { createColor } = useContext(ColorsContext);
 
     const handleAddColor = async () => {
         if (selectedColor.trim()) {
             try {
-                await addColor(selectedColor);
+                await createColor(selectedColor);
                 Alert.alert('Success', 'Color added successfully');
                 setSelectedColor('#FFFFFF');
             } catch (error) {
@@ -21,35 +27,43 @@ const AddColorForm = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={[styles.colorText, { color: selectedColor }]}>
-                Selected Color: {selectedColor}
-            </Text>
+        <View style={styles.mainContainer}>
+            <View style={styles.containerSmallHeader}>
+                <GoBackButton />
+                <SmallHeader title="Create Color" />
+                <TouchableOpacity style={[globalStyles.link, {position: 'absolute', right: 0}]} onPress={handleAddColor}>
+                    <MyText style={globalStyles.linkText}>Done</MyText>
+                </TouchableOpacity>
+            </View>
 
-            <ColorPicker
-                color={selectedColor}
-                onColorChange={(color) => setSelectedColor(color)}
-                thumbSize={30}
-                sliderSize={40}
-                noSnap={true}
-                row={false}
-                swatches={false}
-                style={styles.colorPicker}
-            />
+            <View style={styles.container}>
+                <Text style={[styles.colorText, { color: selectedColor }]}>
+                    {selectedColor}
+                </Text>
 
-            <View style={styles.buttonContainer}>
-                <Button title="Add Color" onPress={handleAddColor} />
+                <ColorPicker
+                    color={selectedColor}
+                    onColorChange={(color) => setSelectedColor(color)}
+                    thumbSize={30}
+                    sliderSize={40}
+                    noSnap={true}
+                    row={false}
+                    swatches={false}
+                    style={styles.colorPicker}
+                />
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
+        padding: 20,
+    },
+    container: {
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20,
     },
     colorText: {
         fontSize: 18,
@@ -65,6 +79,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: '80%',
     },
+    containerSmallHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20
+    }
 });
 
 export default AddColorForm;
