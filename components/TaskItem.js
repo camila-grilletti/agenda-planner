@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { colors } from "../styles/globalStyles";
 import { CheckBox } from '@rneui/themed';
@@ -24,7 +24,6 @@ const TaskItem = ({ task, onDelete }) => {
     };
 
     const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : null;
-    const itemColor = task.color ? getTextColorForBackground(task.color) : colors.white;
 
     return (
         <View style={[styles.itemContainer, {backgroundColor: task.color || colors.primary}]}>
@@ -38,14 +37,14 @@ const TaskItem = ({ task, onDelete }) => {
                 containerStyle={styles.checkboxContainer}
             />
             <View style={styles.taskTextContainer}>
-                <MyText style={[styles.taskTextTitle, {color: itemColor}]}>{task.task}</MyText>
+                <MyText style={[styles.taskTextTitle, {color: colors.white}]}>{task.task}</MyText>
                 {task.tagName && (
                     <View style={[styles.taskTag, { backgroundColor: task.tagColor }]}>
                         <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>
                     </View>
                 )}
                 {task.description && (
-                    <MyText style={[styles.taskTextDescription, {color: itemColor}]}>{task.description}</MyText>
+                    <MyText style={styles.taskTextDescription}>{task.description}</MyText>
                 )}
             </View>
         </View>
@@ -55,9 +54,8 @@ const TaskItem = ({ task, onDelete }) => {
 const styles = StyleSheet.create({
     itemContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
+        alignItems: 'flex-start',
+        padding: 10,
         backgroundColor: colors.primary,
         borderRadius: 15,
         marginBottom: 10,
@@ -70,23 +68,27 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     },
     taskTextContainer: {
+        flex: 1,
         flexDirection: 'column',
     },
     taskTextTitle: {
         fontSize: 16,
         color: colors.white,
+        marginBottom: 5
     },
     taskTextDescription: {
         fontSize: 13,
         color: colors.whiteTransparent,
+        marginBottom: 5,
     },
     taskTag: {
         paddingVertical: 1,
         paddingHorizontal: 4,
         borderRadius: 5,
         alignSelf: 'flex-start',
-        marginBottom: 5
+        marginBottom: 5,
     },
 });
+
 
 export default TaskItem;

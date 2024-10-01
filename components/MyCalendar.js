@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import {View, StyleSheet, ActivityIndicator, Image} from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../styles/globalStyles";
 import TaskContainer from "./TasksContainer";
 import MyText from './MyText';
 import { TasksContext } from "../context/TasksContext";
+import noTasksImg from "../assets/no-tasks.webp";
 
 const MyCalendar = () => {
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
@@ -74,7 +75,9 @@ const MyCalendar = () => {
                         {tasks[selectedDate] ? (
                             <TaskContainer tasks={tasks[selectedDate]} onDeleteTask={handleDeleteTask} />
                         ) : (
-                            <MyText style={styles.noTasks}>No tasks for this day</MyText>
+                            <View style={styles.noTaskContainer}>
+                                <MyText style={styles.textNoTask}>No tasks for this day 👀</MyText>
+                            </View>
                         )}
                     </View>
                 </>
@@ -99,6 +102,11 @@ const styles = StyleSheet.create({
     noTasks: {
         fontSize: 16,
         color: 'gray',
+    },
+    noTaskContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

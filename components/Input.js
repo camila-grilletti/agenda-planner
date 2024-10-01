@@ -2,18 +2,23 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import MyText from './MyText';
 
-const InputComponent = ({ label, placeholder, value, onChangeText }) => {
+const InputComponent = ({ label, placeholder, value, onChangeText, multiline = false, numberOfLines = 1, style }) => {
     return (
         <View style={styles.inputContainer}>
             {label && <MyText style={globalStyles.inputLabel}>{label}</MyText>}
             <TextInput
                 style={[
                     globalStyles.input,
-                    styles.fullWidthInput
+                    styles.fullWidthInput,
+                    multiline && styles.textArea,
+                    style
                 ]}
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
+                multiline={multiline}
+                numberOfLines={numberOfLines}
+                textAlignVertical={multiline ? 'top' : 'center'}
             />
         </View>
     );
@@ -26,6 +31,10 @@ const styles = StyleSheet.create({
     },
     fullWidthInput: {
         width: '100%',
+    },
+    textArea: {
+        height: 100,
+        paddingVertical: 5,
     },
 });
 

@@ -10,7 +10,7 @@ export const colors = {
     inputBackground: '#f5f5f5',
     white: '#fff',
     black: 'black',
-    whiteTransparent: 'rgba(255, 255, 255, 0.7)',
+    whiteTransparent: 'rgba(255, 255, 255, 0.8)',
     blackTransparent: 'rgba(0, 0, 0, 0.5)',
     whiteDescription: '#ebebeb',
     greenState: '#66CDAA',
@@ -87,6 +87,7 @@ export const globalStyles = StyleSheet.create({
     textSmallHeader: {
         fontSize: 20,
         fontFamily: 'Poppins',
+        marginTop: 5
     },
     textSubHeader: {
         fontSize: 18,
