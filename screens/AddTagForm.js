@@ -72,39 +72,6 @@ const styles = StyleSheet.create({
         padding: 20,
         flex: 1
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        marginBottom: 10,
-        borderRadius: 5,
-    },
-    pickerContainer: {
-        marginVertical: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: '#f0f0f0',
-    },
-    picker: {
-        height: 50,
-        width: '100%',
-    },
-    pickerItem: {
-        height: 50,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    colorCircle: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        marginRight: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-    },
     containerSmallHeader: {
         flexDirection: 'row',
         alignItems: 'center',
