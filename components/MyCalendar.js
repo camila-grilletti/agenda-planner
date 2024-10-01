@@ -8,7 +8,7 @@ import { TasksContext } from "../context/TasksContext";
 
 const MyCalendar = () => {
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
-    const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA')); // Correcto formato YYYY-MM-DD
+    const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA'));
 
     const handleDayPress = (day) => {
         setSelectedDate(day.dateString);

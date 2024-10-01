@@ -10,10 +10,9 @@ import {TasksContext} from "../context/TasksContext";
 
 const TodayScreen = ({ navigation }) => {
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toLocaleDateString('en-CA');
     const formattedDate = formatDate(new Date());
 
-    // Get tasks for today
     const tasksToday = tasks[today] || [];
 
     return (
