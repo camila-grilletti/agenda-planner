@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import TodayScreen from "../screens/TodayScreen";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../styles/globalStyles";
@@ -10,6 +10,7 @@ import AddScreen from "../screens/AddScreen";
 import OverviewScreen from "../screens/OverviewScreen";
 import AddColorForm from "../screens/AddColorForm";
 import AddTagForm from "../screens/AddTagForm";
+import Settings from "../screens/Settings";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -73,6 +74,7 @@ export default function AppNavigator() {
                     <Stack.Screen name="Tabs" component={TabNavigator} />
                     <Stack.Screen name="Tag" component={AddTagForm} />
                     <Stack.Screen name="Color" component={AddColorForm} />
+                    <Stack.Screen name="Settings" component={Settings} />
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>
