@@ -1,19 +1,9 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors } from "../styles/globalStyles";
+import {colors, globalStyles} from "../styles/globalStyles";
 import { CheckBox } from '@rneui/themed';
 import MyText from './MyText';
-
-const getTextColorForBackground = (backgroundColor) => {
-    const hex = backgroundColor.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-    return brightness > 128 ? 'black' : 'white';
-};
+import {getTextColorForBackground} from "../utils/utils";
 
 const TaskItem = ({ task, onDelete }) => {
     const [isChecked, setIsChecked] = useState(false);
@@ -39,7 +29,7 @@ const TaskItem = ({ task, onDelete }) => {
             <View style={styles.taskTextContainer}>
                 <MyText style={[styles.taskTextTitle, {color: colors.white}]}>{task.task}</MyText>
                 {task.tagName && (
-                    <View style={[styles.taskTag, { backgroundColor: task.tagColor }]}>
+                    <View style={[globalStyles.taskTag, { backgroundColor: task.tagColor }]}>
                         <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>
                     </View>
                 )}
@@ -79,13 +69,6 @@ const styles = StyleSheet.create({
     taskTextDescription: {
         fontSize: 13,
         color: colors.whiteTransparent,
-        marginBottom: 5,
-    },
-    taskTag: {
-        paddingVertical: 1,
-        paddingHorizontal: 4,
-        borderRadius: 5,
-        alignSelf: 'flex-start',
         marginBottom: 5,
     },
 });

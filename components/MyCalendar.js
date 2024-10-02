@@ -1,11 +1,10 @@
 import { useContext, useState } from 'react';
-import {View, StyleSheet, ActivityIndicator, Image} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../styles/globalStyles";
 import TaskContainer from "./TasksContainer";
 import MyText from './MyText';
 import { TasksContext } from "../context/TasksContext";
-import noTasksImg from "../assets/no-tasks.webp";
 
 const MyCalendar = () => {
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);

@@ -37,6 +37,12 @@ export const createTable = async () => {
             name TEXT NOT NULL
         );
     `);
+
+    await database.runAsync(`
+        INSERT INTO colors (name)
+        SELECT '#FF6347'
+        WHERE NOT EXISTS (SELECT 1 FROM colors WHERE name = '#FF6347');
+    `);
 };
 
 export const addTask = async (title, description, date, tagId, colorId, time) => {
@@ -111,6 +117,30 @@ export const getColorId = async (colorId) => {
     const database = await db;
     const result = await database.getAllAsync('SELECT name FROM colors WHERE id = ?', colorId);
     return result.length ? result[0].name : null;
+};
+
+export const getTomatoColorId = async () => {
+    const database = await db;
+    const result = await database.getAllAsync('SELECT id FROM colors WHERE name = ?', '#FF6347');
+    return result.length ? result[0].id : null;
+}
+
+export const deleteTag = async (id) => {
+    const database = await db;
+    await database.runAsync('UPDATE tasks SET tagId = NULL WHERE tagId = ?', id);
+    await database.runAsync('DELETE FROM tags WHERE id = ?', id);
+};
+
+export const deleteColor = async (id) => {
+    const database = await db;
+
+    const tomatoColor = await database.getAllAsync('SELECT id FROM colors WHERE name = ?', '#FF6347');
+    const tomatoColorId = tomatoColor[0].id;
+
+    await database.runAsync('UPDATE tags SET colorId = ? WHERE colorId = ?', tomatoColorId, id);
+    await database.runAsync('UPDATE tasks SET colorId = ? WHERE colorId = ?', tomatoColorId, id);
+
+    await database.runAsync('DELETE FROM colors WHERE id = ?', id);
 };
 
 export const dropTables = async () => {

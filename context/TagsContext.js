@@ -1,11 +1,13 @@
-import { createContext, useState, useEffect } from 'react';
-import { getTags, addTag } from "../db/tasks";
+import {createContext, useState, useEffect, useContext} from 'react';
+import {getTags, addTag, deleteTag} from "../db/tasks";
+import {TasksContext} from "./TasksContext";
 
 export const TagsContext = createContext();
 
 export const TagsProvider = ({ children }) => {
     const [allTags, setAllTags] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { fetchTasks } = useContext(TasksContext);
 
     const fetchTags = async (load = true) => {
         try {
@@ -22,9 +24,19 @@ export const TagsProvider = ({ children }) => {
     const createTag = async (name, colorId) => {
         try {
             await addTag(name, colorId);
-            fetchTags(false);
+            await fetchTags(false);
         } catch (error) {
             console.error('Error al añadir tag:', error);
+        }
+    };
+
+    const handleDeleteTag = async (id) => {
+        try {
+            await deleteTag(id);
+            await fetchTags(false);
+            await fetchTasks(false);
+        } catch (error) {
+            console.error('Error al eliminar tag:', error);
         }
     };
 
@@ -32,7 +44,7 @@ export const TagsProvider = ({ children }) => {
         fetchTags();
     }, []);
 
-    const value = { allTags, loading, fetchTags, createTag };
+    const value = { allTags, loading, fetchTags, createTag, handleDeleteTag };
 
     return (
         <TagsContext.Provider value={value}>

@@ -33,10 +33,12 @@ const AddTaskForm = () => {
     const handleAddTask = async () => {
         if (title && date) {
             try {
+                const formattedDate = date.toLocaleDateString('en-CA');
+
                 await addTask(
                     title,
                     description,
-                    date.toISOString().split('T')[0],
+                    formattedDate,
                     tagId,
                     colorId,
                     time.toISOString().split('T')[1].slice(0, 5)
@@ -121,7 +123,7 @@ const AddTaskForm = () => {
                 />
                 <InputDate
                     label="Date"
-                    value={date.toISOString().split('T')[0]}
+                    value={date.toLocaleDateString('en-CA')}
                     onPressFn={() => setShowDatePicker(true)}
                 />
                 {showDatePicker && (

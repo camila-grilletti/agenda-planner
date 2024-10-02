@@ -93,5 +93,12 @@ export const globalStyles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         fontFamily: 'Poppins-Medium',
-    }
+    },
+    taskTag: {
+        paddingVertical: 1,
+        paddingHorizontal: 4,
+        borderRadius: 5,
+        alignSelf: 'flex-start',
+        marginBottom: 5,
+    },
 });

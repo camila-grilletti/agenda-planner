@@ -7,6 +7,7 @@ import MyText from "../components/MyText";
 import { ColorsContext } from "../context/ColorsContext";
 import GoBackButton from "../components/GoBackButton";
 import Toast from 'react-native-toast-message';
+import AllColors from "../components/AllColors";
 
 const AddColorForm = () => {
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
@@ -73,6 +74,7 @@ const AddColorForm = () => {
                     style={styles.colorPicker}
                 />
             </View>
+            <AllColors />
 
             <Toast />
         </View>
@@ -83,10 +85,11 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 20,
+        flexDirection: 'column'
     },
     container: {
-        justifyContent: 'center',
         alignItems: 'center',
+        flex: 1,
     },
     colorText: {
         fontSize: 18,

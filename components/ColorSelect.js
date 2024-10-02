@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, ScrollView, Text } from 'react-native';
 import { ColorsContext } from "../context/ColorsContext";
 import { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -24,20 +24,24 @@ const ColorSelect = ({ onChangeInput }) => {
                 style={styles.scrollView}
             >
                 <View style={styles.container}>
-                    {allColors.map((color) => (
-                        <TouchableOpacity
-                            key={color.id}
-                            onPress={() => handleColorPress(color.id)}
-                        >
-                            <View
-                                style={[
-                                    styles.circleColor,
-                                    { backgroundColor: color.name },
-                                    selectedColor === color.id && styles.selectedBorder
-                                ]}
-                            />
-                        </TouchableOpacity>
-                    ))}
+                    {allColors.length === 0 ? (
+                        <Text style={styles.noColorsText}>No colors available. Add a new one!</Text>
+                    ) : (
+                        allColors.map((color) => (
+                            <TouchableOpacity
+                                key={color.id}
+                                onPress={() => handleColorPress(color.id)}
+                            >
+                                <View
+                                    style={[
+                                        styles.circleColor,
+                                        { backgroundColor: color.name },
+                                        selectedColor === color.id && styles.selectedBorder
+                                    ]}
+                                />
+                            </TouchableOpacity>
+                        ))
+                    )}
                     <TouchableOpacity
                         key='create-color'
                         onPress={() => navigation.navigate('Color')}
@@ -83,8 +87,14 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         color: colors.primary,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: -5
     },
+    noColorsText: {
+        fontSize: 14,
+        color: colors.primary,
+        marginRight: 10,
+    }
 });
 
 export default ColorSelect;

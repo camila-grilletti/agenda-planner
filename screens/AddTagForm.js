@@ -8,6 +8,7 @@ import MyText from "../components/MyText";
 import ColorSelect from "../components/ColorSelect";
 import { TagsContext } from "../context/TagsContext";
 import Toast from 'react-native-toast-message';
+import AllTags from "../components/AllTags";
 
 const AddTagForm = () => {
     const { createTag } = useContext(TagsContext);
@@ -61,6 +62,7 @@ const AddTagForm = () => {
             </View>
             <InputName placeholder="Tag name..." value={tagName} onChangeInput={setTagName} />
             <ColorSelect onChangeInput={setColorId} />
+            <AllTags />
 
             <Toast />
         </View>
