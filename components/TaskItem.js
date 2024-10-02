@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     taskTextTitle: {
         fontSize: 16,
         color: colors.white,
-        marginBottom: 5
+        marginTop: 2
     },
     taskTextDescription: {
         fontSize: 13,
