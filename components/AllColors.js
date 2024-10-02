@@ -8,23 +8,29 @@ import { colors } from "../styles/globalStyles";
 const AllColors = () => {
     const { allColors, handleDeleteColor } = useContext(ColorsContext);
 
-    // Confirmación de eliminación
     const confirmDeleteColor = (colorId) => {
-        Alert.alert(
-            'Delete Color',
-            'Are you sure you want to delete this color?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                {
-                    text: 'OK',
-                    onPress: () => handleDeleteColor(colorId),
-                },
-            ],
-            { cancelable: true }
-        );
+        if (colorId === 1) {
+            Alert.alert(
+                "You can't delete this color",
+                "It's useful, we promise 🍅",
+            );
+        } else {
+            Alert.alert(
+                'Delete Color',
+                'Are you sure you want to delete this color?',
+                [
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'OK',
+                        onPress: () => handleDeleteColor(colorId),
+                    },
+                ],
+                { cancelable: true }
+            );
+        }
     };
 
     return (
