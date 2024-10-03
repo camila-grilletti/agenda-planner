@@ -9,6 +9,7 @@ import {colors} from "./styles/globalStyles";
 import {ColorsProvider} from "./context/ColorsContext";
 import {TagsProvider} from "./context/TagsContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {ThemeProvider} from "./context/ThemeContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,17 +32,19 @@ export default function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <TasksProvider>
-                <TagsProvider>
-                    <ColorsProvider>
-                            <StatusBar
-                                backgroundColor={colors.backgroundGray}
-                                barStyle="dark-content"
-                            />
-                            <AppNavigator />
-                    </ColorsProvider>
-                </TagsProvider>
-            </TasksProvider>
+            <ThemeProvider>
+                <TasksProvider>
+                    <TagsProvider>
+                        <ColorsProvider>
+                                <StatusBar
+                                    backgroundColor={colors.backgroundGray}
+                                    barStyle="dark-content"
+                                />
+                                <AppNavigator />
+                        </ColorsProvider>
+                    </TagsProvider>
+                </TasksProvider>
+            </ThemeProvider>
         </GestureHandlerRootView>
     )
 }
