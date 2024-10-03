@@ -4,13 +4,16 @@ import TaskContainer from "../components/TasksContainer";
 import Header from "../components/Header";
 import MyText from "../components/MyText";
 import formatDate from "../formats/formats";
-import { colors, globalStyles } from "../styles/globalStyles";
+import { createGlobalStyles } from "../styles/globalStyles";
 import noTasksImg from '../assets/no-tasks.webp';
 import { TasksContext } from "../context/TasksContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useTheme } from "../context/ThemeContext";
 
 const TodayScreen = ({ navigation }) => {
+    const { theme } = useTheme();
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
+    const globalStyles = createGlobalStyles(theme);
     const today = new Date().toLocaleDateString('en-CA');
     const formattedDate = formatDate(new Date());
 
@@ -21,14 +24,14 @@ const TodayScreen = ({ navigation }) => {
             <View style={styles.headerContainer}>
                 <Header title="Today" />
                 <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                    <Ionicons name="settings-outline" size={24} color={colors.blackTransparent} />
+                    <Ionicons name="settings-outline" size={24} color={theme.blackTransparent} />
                 </TouchableOpacity>
             </View>
-            <MyText style={styles.dateText}>{formattedDate}</MyText>
+            <MyText style={[styles.dateText, { color: theme.blackTransparent }]}>{formattedDate}</MyText>
 
             {loading ? (
                 <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
+                    <ActivityIndicator size="large" color={theme.primary} />
                 </View>
             ) : (
                 tasksToday.length > 0 ? (
@@ -40,7 +43,7 @@ const TodayScreen = ({ navigation }) => {
                             style={styles.image}
                             resizeMode="contain"
                         />
-                        <MyText style={styles.textNoTask}>Enjoy your day! ❤️</MyText>
+                        <MyText style={[styles.textNoTask, { color: theme.text }]}>Enjoy your day! ❤️</MyText>
                     </View>
                 )
             )}
@@ -58,7 +61,6 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 14,
         fontFamily: 'Poppins-Medium',
-        color: colors.blackTransparent,
     },
     imageContainer: {
         flex: 1,

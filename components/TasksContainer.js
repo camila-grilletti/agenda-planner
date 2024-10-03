@@ -1,15 +1,21 @@
 import { FlatList, StyleSheet, View } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import TaskItem from './TaskItem';
 import MyText from "./MyText";
-import {colors} from "../styles/globalStyles";
 import SubHeader from "./SubHeader";
 
 const TaskContainer = ({ tasks, onDeleteTask }) => {
+    const { theme } = useTheme();
+
     return (
         <View style={styles.container}>
             <View style={styles.tasksInfoContainer}>
                 <SubHeader title="To-dos" />
-                {tasks.length > 0 && (<MyText style={styles.tasksCount}>{tasks.length} task{tasks.length > 1 && "s"}</MyText>)}
+                {tasks.length > 0 && (
+                    <MyText style={[styles.tasksCount, { backgroundColor: theme.primary, color: theme.white }]}>
+                        {tasks.length} task{tasks.length > 1 && "s"}
+                    </MyText>
+                )}
             </View>
             <FlatList
                 style={styles.container}
@@ -32,19 +38,17 @@ const styles = StyleSheet.create({
     tasksInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 10,
     },
     tasksCount: {
-        backgroundColor: colors.primary,
         borderRadius: 20,
         marginLeft: 10,
-        color: colors.white,
         paddingHorizontal: 10,
         paddingVertical: 2,
         paddingBottom: 0,
         textAlign: 'center',
         fontSize: 11,
-    }
+    },
 });
 
 export default TaskContainer;

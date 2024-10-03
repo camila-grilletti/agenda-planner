@@ -3,9 +3,10 @@ import { ColorsContext } from "../context/ColorsContext";
 import { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { colors } from "../styles/globalStyles";
+import { useTheme } from '../context/ThemeContext';
 
 const ColorSelect = ({ onChangeInput }) => {
+    const { theme } = useTheme();
     const { allColors } = useContext(ColorsContext);
     const [selectedColor, setSelectedColor] = useState(null);
     const navigation = useNavigation();
@@ -25,7 +26,9 @@ const ColorSelect = ({ onChangeInput }) => {
             >
                 <View style={styles.container}>
                     {allColors.length === 0 ? (
-                        <Text style={styles.noColorsText}>No colors available. Add a new one!</Text>
+                        <Text style={[styles.noColorsText, { color: theme.primary }]}>
+                            No colors available. Add a new one!
+                        </Text>
                     ) : (
                         allColors.map((color) => (
                             <TouchableOpacity
@@ -35,8 +38,10 @@ const ColorSelect = ({ onChangeInput }) => {
                                 <View
                                     style={[
                                         styles.circleColor,
-                                        { backgroundColor: color.name },
-                                        selectedColor === color.id && styles.selectedBorder
+                                        {
+                                            backgroundColor: color.name,
+                                            borderColor: selectedColor === color.id ? theme.text : 'transparent'
+                                        },
                                     ]}
                                 />
                             </TouchableOpacity>
@@ -46,7 +51,7 @@ const ColorSelect = ({ onChangeInput }) => {
                         key='create-color'
                         onPress={() => navigation.navigate('Color')}
                     >
-                        <Ionicons name="add-outline" style={styles.pickerIcon} size={25} />
+                        <Ionicons name="add-outline" style={[styles.pickerIcon, { color: theme.primary }]} size={25} />
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -78,21 +83,16 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         marginRight: 10,
         marginBottom: 5,
-    },
-    selectedBorder: {
         borderWidth: 2,
-        borderColor: '#000',
     },
     pickerIcon: {
         width: 25,
         height: 25,
-        color: colors.primary,
         textAlign: 'center',
         marginTop: -5
     },
     noColorsText: {
         fontSize: 14,
-        color: colors.primary,
         marginRight: 10,
     }
 });

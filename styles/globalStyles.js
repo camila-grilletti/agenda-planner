@@ -18,7 +18,7 @@ export const colors = {
     redState: '#FF7F7F',
 };
 
-export const globalStyles = StyleSheet.create({
+export const createGlobalStyles = (theme) => ({
     container: {
         flex: 1,
         padding: 20,

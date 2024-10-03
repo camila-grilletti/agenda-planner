@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { colors } from "../styles/globalStyles";
+import { useTheme } from '../context/ThemeContext';
 import TaskContainer from "./TasksContainer";
 import MyText from './MyText';
 import { TasksContext } from "../context/TasksContext";
 
 const MyCalendar = () => {
+    const { theme } = useTheme();
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
     const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA'));
 
@@ -15,16 +16,16 @@ const MyCalendar = () => {
     };
 
     const getTaskColor = (taskCount) => {
-        if (taskCount === 1) return colors.greenState;
-        if (taskCount > 1 && taskCount <= 3) return colors.yellowState;
-        return colors.redState;
+        if (taskCount === 1) return theme.greenState;
+        if (taskCount > 1 && taskCount <= 3) return theme.yellowState;
+        return theme.redState;
     };
 
     return (
         <View style={styles.container}>
             {loading ? (
                 <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
+                    <ActivityIndicator size="large" color={theme.primary} />
                 </View>
             ) : (
                 <>
@@ -39,7 +40,7 @@ const MyCalendar = () => {
                                             borderRadius: 8,
                                         },
                                         text: {
-                                            color: colors.white,
+                                            color: theme.white,
                                         },
                                     },
                                 };
@@ -49,11 +50,11 @@ const MyCalendar = () => {
                                 selected: true,
                                 customStyles: {
                                     container: {
-                                        backgroundColor: colors.primary,
+                                        backgroundColor: theme.primary,
                                         borderRadius: 20,
                                     },
                                     text: {
-                                        color: colors.white,
+                                        color: theme.white,
                                     },
                                 },
                             },
@@ -61,9 +62,9 @@ const MyCalendar = () => {
                         markingType={'custom'}
                         onDayPress={handleDayPress}
                         theme={{
-                            arrowColor: colors.primary,
-                            monthTextColor: colors.primary,
-                            textSectionTitleColor: colors.primary,
+                            arrowColor: theme.primary,
+                            monthTextColor: theme.primary,
+                            textSectionTitleColor: theme.primary,
                             textMonthFontFamily: 'Poppins-Medium',
                             textDayFontFamily: 'Poppins',
                             textDayHeaderFontFamily: 'Poppins',
@@ -75,7 +76,9 @@ const MyCalendar = () => {
                             <TaskContainer tasks={tasks[selectedDate]} onDeleteTask={handleDeleteTask} />
                         ) : (
                             <View style={styles.noTaskContainer}>
-                                <MyText style={styles.textNoTask}>No tasks for this day 👀</MyText>
+                                <MyText style={[styles.noTasks, { color: theme.text }]}>
+                                    No tasks for this day 👀
+                                </MyText>
                             </View>
                         )}
                     </View>
@@ -100,7 +103,6 @@ const styles = StyleSheet.create({
     },
     noTasks: {
         fontSize: 16,
-        color: 'gray',
     },
     noTaskContainer: {
         flex: 1,

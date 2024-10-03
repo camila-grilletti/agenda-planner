@@ -7,15 +7,19 @@ import InputDate from "../components/InputDate";
 import { TasksContext } from '../context/TasksContext';
 import { Picker } from '@react-native-picker/picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { colors, globalStyles } from "../styles/globalStyles";
+import { createGlobalStyles } from "../styles/globalStyles";
 import { useNavigation } from '@react-navigation/native';
 import ColorSelect from "../components/ColorSelect";
 import SmallHeader from "../components/SmallHeader";
 import MyText from "../components/MyText";
 import { TagsContext } from "../context/TagsContext";
 import Toast from 'react-native-toast-message';
+import { useTheme } from '../context/ThemeContext';
 
 const AddTaskForm = () => {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState(new Date());
@@ -94,10 +98,7 @@ const AddTaskForm = () => {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={'padding'}
-        >
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={'padding'}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.containerSmallHeader}>
                     <SmallHeader title="Create Task" />
@@ -119,7 +120,7 @@ const AddTaskForm = () => {
                     onChangeText={setDescription}
                     multiline={true}
                     numberOfLines={4}
-                    style={styles.textArea}
+                    style={[styles.textArea, { borderColor: theme.white }]}
                 />
                 <InputDate
                     label="Date"
@@ -135,14 +136,13 @@ const AddTaskForm = () => {
                     />
                 )}
 
-                {/* Tag Picker */}
                 <View style={styles.pickerContainerMain}>
-                    <View style={styles.pickerContainer}>
+                    <View style={[styles.pickerContainer, { borderColor: theme.white }]}>
                         <Picker
                             selectedValue={tagId}
                             onValueChange={(itemValue) => setTagId(itemValue)}
-                            style={styles.picker}
-                            dropdownIconColor={colors.primary}
+                            style={[styles.picker, { backgroundColor: theme.white, borderColor: theme.white }]}
+                            dropdownIconColor={theme.primary}
                         >
                             <Picker.Item label="Select a tag..." value={null} />
                             {allTags.map(tag => (
@@ -151,11 +151,10 @@ const AddTaskForm = () => {
                         </Picker>
                     </View>
                     <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
-                        <Ionicons name="add-outline" style={styles.pickerIcon} size={20} />
+                        <Ionicons name="add-outline" style={[styles.pickerIcon, { color: theme.primary }]} size={20} />
                     </TouchableOpacity>
                 </View>
 
-                {/* Time Picker */}
                 <InputDate
                     label="Time"
                     value={time.toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', hour12: false })}
@@ -191,18 +190,14 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 10,
         borderWidth: 1,
-        borderColor: colors.white,
         borderRadius: 8,
         overflow: 'hidden',
     },
     picker: {
         height: 50,
         width: '100%',
-        backgroundColor: colors.white,
-        borderColor: colors.white,
     },
     pickerIcon : {
-        color: colors.primary,
         marginLeft: 10,
     },
     containerSmallHeader: {

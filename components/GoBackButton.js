@@ -1,9 +1,10 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
-import { colors } from "../styles/globalStyles";
+import { useTheme } from "../context/ThemeContext";
 
 const GoBackButton = () => {
+    const { theme } = useTheme();
     const navigation = useNavigation();
     const routes = useNavigationState(state => state.routes);
 
@@ -17,15 +18,12 @@ const GoBackButton = () => {
 
     return (
         <TouchableOpacity style={styles.goBackButton} onPress={handleGoBack}>
-            <Ionicons name="chevron-back-outline" style={styles.pickerIcon} size={20} />
+            <Ionicons name="chevron-back-outline" style={[{ color: theme.text }]} size={20} />
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    pickerIcon: {
-        color: colors.black,
-    },
     goBackButton: {
         position: 'absolute',
         left: 0,

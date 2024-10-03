@@ -2,10 +2,10 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import TodayScreen from "../screens/TodayScreen";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from "../styles/globalStyles";
 import AddScreen from "../screens/AddScreen";
 import OverviewScreen from "../screens/OverviewScreen";
 import AddColorForm from "../screens/AddColorForm";
@@ -15,8 +15,9 @@ import Settings from "../screens/Settings";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Bottom Tab Navigator
 function TabNavigator() {
+    const { theme } = useTheme();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -30,19 +31,20 @@ function TabNavigator() {
                     } else if (route.name === 'Add') {
                         iconName = 'add-circle';
                         size = 50;
-                        color = colors.primary;
+                        color = theme.primary;
                     } else if (route.name === 'Overview') {
                         iconName = focused ? 'albums' : 'albums-outline';
                     }
 
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: colors.primary,
-                tabBarInactiveTintColor: colors.inactive,
+                tabBarActiveTintColor: theme.primary,
+                tabBarInactiveTintColor: theme.inactive,
                 tabBarStyle: {
                     height: 70,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    backgroundColor: theme.background,
                 },
                 headerShown: false,
             })}
@@ -67,8 +69,10 @@ function TabNavigator() {
 }
 
 export default function AppNavigator() {
+    const { theme } = useTheme();
+
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Tabs" component={TabNavigator} />
@@ -84,6 +88,5 @@ export default function AppNavigator() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: colors.white,
     },
 });

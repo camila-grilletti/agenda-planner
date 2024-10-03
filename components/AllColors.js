@@ -3,9 +3,13 @@ import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import MyText from "../components/MyText";
 import { ColorsContext } from "../context/ColorsContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { colors } from "../styles/globalStyles";
+import { useTheme } from '../context/ThemeContext';
+import { createGlobalStyles } from '../styles/globalStyles';
 
 const AllColors = () => {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
+
     const { allColors, handleDeleteColor } = useContext(ColorsContext);
 
     const confirmDeleteColor = (colorId) => {
@@ -35,7 +39,7 @@ const AllColors = () => {
 
     return (
         <View style={styles.container}>
-            {allColors.length > 0 && <MyText style={[{ marginTop: 20 }]}>Your colors</MyText>}
+            {allColors.length > 0 && <MyText style={[{ marginTop: 20, color: theme.text, fontSize: 15 }]}>Your colors</MyText>}
             <View style={styles.colorsContainer}>
                 {allColors.map((color) => (
                     <TouchableOpacity
@@ -48,7 +52,7 @@ const AllColors = () => {
                                 { backgroundColor: color.name },
                             ]}
                         >
-                            <Ionicons name="close-outline" size={17} color={colors.white} style={styles.colorIconClose} />
+                            <Ionicons name="close-outline" size={17} color={theme.white} style={styles.colorIconClose} />
                         </View>
                     </TouchableOpacity>
                 ))}
@@ -59,13 +63,7 @@ const AllColors = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    containerSmallHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 20
+        flex: 1,
     },
     colorsContainer: {
         flexDirection: 'row',
@@ -83,8 +81,8 @@ const styles = StyleSheet.create({
     },
     colorIconClose: {
         textAlign: 'center',
-        marginTop: 3
-    }
+        marginTop: 3,
+    },
 });
 
 export default AllColors;

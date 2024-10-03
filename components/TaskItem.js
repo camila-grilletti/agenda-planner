@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { View, StyleSheet, Animated, PanResponder } from 'react-native';
-import { colors, globalStyles } from '../styles/globalStyles';
+import { useTheme } from '../context/ThemeContext';
 import { CheckBox } from '@rneui/themed';
 import MyText from './MyText';
 import { getTextColorForBackground } from '../utils/utils';
+import {createGlobalStyles} from "../styles/globalStyles";
 
 const TaskItem = ({ task, onDelete }) => {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
     const [isChecked, setIsChecked] = useState(false);
     const translateX = useRef(new Animated.Value(0)).current;
 
@@ -13,7 +16,7 @@ const TaskItem = ({ task, onDelete }) => {
         setIsChecked(!isChecked);
     };
 
-    const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : null;
+    const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : theme.text;
 
     const handleSwipeComplete = () => {
         Animated.timing(translateX, {
@@ -28,18 +31,15 @@ const TaskItem = ({ task, onDelete }) => {
     const panResponder = useRef(
         PanResponder.create({
             onMoveShouldSetPanResponder: (_, gestureState) => {
-                // Start the pan responder when a horizontal swipe is detected
                 return Math.abs(gestureState.dx) > 20;
             },
             onPanResponderMove: (_, gestureState) => {
-                // Limit the swipe movement to prevent over-swiping
                 translateX.setValue(Math.max(gestureState.dx, -100));
             },
             onPanResponderRelease: (_, gestureState) => {
                 if (gestureState.dx < -100) {
                     handleSwipeComplete();
                 } else {
-                    // If the swipe wasn't strong enough, reset the position
                     Animated.spring(translateX, {
                         toValue: 0,
                         useNativeDriver: true,
@@ -54,25 +54,27 @@ const TaskItem = ({ task, onDelete }) => {
             {...panResponder.panHandlers}
             style={[styles.animatedContainer, { transform: [{ translateX }] }]}
         >
-            <View style={[styles.itemContainer, { backgroundColor: task.color || colors.primary }]}>
+            <View style={[styles.itemContainer, { backgroundColor: task.color || theme.primary }]}>
                 <CheckBox
                     checked={isChecked}
                     onPress={handleCheckboxPress}
-                    uncheckedColor={colors.white}
-                    checkedColor={colors.white}
+                    uncheckedColor={theme.white}
+                    checkedColor={theme.white}
                     checkedIcon="check-circle"
                     uncheckedIcon="circle-o"
                     containerStyle={styles.checkboxContainer}
                 />
                 <View style={styles.taskTextContainer}>
-                    <MyText style={[styles.taskTextTitle, { color: colors.white }]}>{task.task}</MyText>
+                    <MyText style={[styles.taskTextTitle, { color: theme.white }]}>{task.task}</MyText>
                     {task.tagName && (
                         <View style={[globalStyles.taskTag, { backgroundColor: task.tagColor }]}>
                             <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>
                         </View>
                     )}
                     {task.description && (
-                        <MyText style={styles.taskTextDescription}>{task.description}</MyText>
+                        <MyText style={[styles.taskTextDescription, { color: theme.whiteTransparent }]}>
+                            {task.description}
+                        </MyText>
                     )}
                 </View>
             </View>
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         padding: 10,
-        backgroundColor: colors.primary,
         borderRadius: 15,
     },
     checkboxContainer: {
@@ -104,12 +105,10 @@ const styles = StyleSheet.create({
     },
     taskTextTitle: {
         fontSize: 16,
-        color: colors.white,
         marginTop: 2,
     },
     taskTextDescription: {
         fontSize: 13,
-        color: colors.whiteTransparent,
         marginBottom: 5,
     },
 });

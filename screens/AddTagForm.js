@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import GoBackButton from "../components/GoBackButton";
 import InputName from "../components/InputName";
 import SmallHeader from "../components/SmallHeader";
-import { globalStyles } from "../styles/globalStyles";
 import MyText from "../components/MyText";
 import ColorSelect from "../components/ColorSelect";
 import { TagsContext } from "../context/TagsContext";
@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import AllTags from "../components/AllTags";
 
 const AddTagForm = () => {
+    const { theme } = useTheme();
     const { createTag } = useContext(TagsContext);
     const [tagName, setTagName] = useState('');
     const [colorId, setColorId] = useState(null);
@@ -52,12 +53,12 @@ const AddTagForm = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.containerSmallHeader}>
                 <GoBackButton />
                 <SmallHeader title="Create Tag" />
-                <TouchableOpacity style={[globalStyles.link, { position: 'absolute', right: 0 }]} onPress={handleAddTag}>
-                    <MyText style={globalStyles.linkText}>Done</MyText>
+                <TouchableOpacity style={{ position: 'absolute', right: 0 }} onPress={handleAddTag}>
+                    <MyText style={[styles.linkText, { color: theme.primary }]}>Done</MyText>
                 </TouchableOpacity>
             </View>
             <InputName placeholder="Tag name..." value={tagName} onChangeInput={setTagName} />
@@ -72,14 +73,18 @@ const AddTagForm = () => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        flex: 1
+        flex: 1,
     },
     containerSmallHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20
-    }
+        marginBottom: 20,
+    },
+    linkText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });
 
 export default AddTagForm;

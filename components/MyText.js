@@ -1,18 +1,23 @@
-import { StyleSheet, Text } from 'react-native';
-import { globalStyles } from '../styles/globalStyles';
+import { Text } from 'react-native';
+import { createGlobalStyles } from '../styles/globalStyles';
+import { useTheme } from "../context/ThemeContext";
 
 const MyText = ({ style, children, ...props }) => {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
+
+    const styles = {
+        text: {
+            fontFamily: globalStyles.text.fontFamily,
+            color: theme.text,
+        },
+    };
+
     return (
-        <Text style={[styles.text, style]} {...props}>
+        <Text style={[globalStyles.text, styles.text, style]} {...props}>
             {children}
         </Text>
     );
 };
-
-const styles = StyleSheet.create({
-    text: {
-        fontFamily: globalStyles.text.fontFamily,
-    },
-});
 
 export default MyText;

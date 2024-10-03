@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { globalStyles, colors } from "../styles/globalStyles";
+import { createGlobalStyles } from "../styles/globalStyles";
 import GoBackButton from "../components/GoBackButton";
 import SmallHeader from "../components/SmallHeader";
 import MyText from "../components/MyText";
@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const Settings = ({ navigation }) => {
     const { theme, changeTheme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
     const [selectedTheme, setSelectedTheme] = useState('Automatic');
 
     const handleCheckboxPress = (theme) => {
@@ -18,14 +19,14 @@ const Settings = ({ navigation }) => {
     };
 
     return (
-        <View style={[globalStyles.container, { backgroundColor: theme.background }]}>
+        <View style={[globalStyles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.containerSmallHeader}>
                 <GoBackButton />
                 <SmallHeader title="Settings" />
             </View>
             <View style={styles.settingsContainer}>
-                <MyText style={[{ marginLeft: 10, marginBottom: 5, color: theme.text }]}>Theme</MyText>
-                <View style={styles.themeContainer}>
+                <MyText style={[{ marginLeft: 10, marginBottom: 5, color: theme.text, fontSize: 13 }]}>Theme</MyText>
+                <View style={[styles.themeContainer, { borderColor: theme.blackTransparent }]}>
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
                             <Ionicons name="contrast-outline" size={20} color={theme.text} style={{ marginRight: 10 }} />
@@ -42,7 +43,7 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
 
-                    <View style={styles.divider} />
+                    <View style={[styles.divider, { backgroundColor: theme.blackTransparent }]} />
 
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
@@ -60,7 +61,7 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
 
-                    <View style={styles.divider} />
+                    <View style={[styles.divider, { backgroundColor: theme.blackTransparent }]} />
 
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
@@ -103,7 +104,6 @@ const styles = StyleSheet.create({
     },
     themeContainer: {
         borderRadius: 15,
-        borderColor: colors.blackTransparent,
         borderWidth: 1,
     },
     singleThemeContainer: {
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     },
     divider: {
         height: 1,
-        backgroundColor: colors.blackTransparent,
     },
 });
 

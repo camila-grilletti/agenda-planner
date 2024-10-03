@@ -2,14 +2,17 @@ import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
 import SmallHeader from "../components/SmallHeader";
-import { globalStyles } from "../styles/globalStyles";
+import { useTheme } from '../context/ThemeContext';
 import MyText from "../components/MyText";
 import { ColorsContext } from "../context/ColorsContext";
 import GoBackButton from "../components/GoBackButton";
 import Toast from 'react-native-toast-message';
 import AllColors from "../components/AllColors";
+import {createGlobalStyles} from "../styles/globalStyles";
 
 const AddColorForm = () => {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
     const { createColor } = useContext(ColorsContext);
 
@@ -49,12 +52,12 @@ const AddColorForm = () => {
     };
 
     return (
-        <View style={styles.mainContainer}>
+        <View style={[styles.mainContainer, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.containerSmallHeader}>
                 <GoBackButton />
                 <SmallHeader title="Create Color" />
-                <TouchableOpacity style={[globalStyles.link, { position: 'absolute', right: 0 }]} onPress={handleAddColor}>
-                    <MyText style={globalStyles.linkText}>Done</MyText>
+                <TouchableOpacity style={[styles.link, { position: 'absolute', right: 0 }]} onPress={handleAddColor}>
+                    <MyText style={[globalStyles.linkText, { color: theme.primary }]}>Done</MyText>
                 </TouchableOpacity>
             </View>
 
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 20,
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     container: {
         alignItems: 'center',
@@ -101,16 +104,12 @@ const styles = StyleSheet.create({
         height: 250,
         marginBottom: 30,
     },
-    buttonContainer: {
-        marginTop: 20,
-        width: '80%',
-    },
     containerSmallHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20
-    }
+        marginBottom: 20,
+    },
 });
 
 export default AddColorForm;
