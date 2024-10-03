@@ -18,7 +18,7 @@ const GoBackButton = () => {
 
     return (
         <TouchableOpacity style={styles.goBackButton} onPress={handleGoBack}>
-            <Ionicons name="chevron-back-outline" style={[{ color: theme.text }]} size={20} />
+            <Ionicons name="chevron-back-outline" style={[{ color: theme.black }]} size={20} />
         </TouchableOpacity>
     );
 };

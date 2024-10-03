@@ -40,7 +40,7 @@ const MyCalendar = () => {
                                             borderRadius: 8,
                                         },
                                         text: {
-                                            color: theme.white,
+                                            color: theme.black,
                                         },
                                     },
                                 };
@@ -54,7 +54,7 @@ const MyCalendar = () => {
                                         borderRadius: 20,
                                     },
                                     text: {
-                                        color: theme.white,
+                                        color: theme.black,
                                     },
                                 },
                             },
@@ -66,9 +66,16 @@ const MyCalendar = () => {
                             monthTextColor: theme.primary,
                             textSectionTitleColor: theme.primary,
                             textMonthFontFamily: 'Poppins-Medium',
-                            textDayFontFamily: 'Poppins',
                             textDayHeaderFontFamily: 'Poppins',
                             calendarBackground: 'transparent',
+                            dayTextColor: theme.black,
+                            textDisabledColor: theme.blackTransparent,
+                            todayTextColor: theme.primary,
+                            textDayFontWeight: 'normal',
+                            textDayStyle: {
+                                color: theme.black,
+                            },
+                            textDayFontFamily: 'Poppins',
                         }}
                     />
                     <View style={styles.taskContainer}>
@@ -76,7 +83,7 @@ const MyCalendar = () => {
                             <TaskContainer tasks={tasks[selectedDate]} onDeleteTask={handleDeleteTask} />
                         ) : (
                             <View style={styles.noTaskContainer}>
-                                <MyText style={[styles.noTasks, { color: theme.text }]}>
+                                <MyText style={[styles.noTasks, { color: theme.black }]}>
                                     No tasks for this day 👀
                                 </MyText>
                             </View>

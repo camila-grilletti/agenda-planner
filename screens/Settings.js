@@ -11,7 +11,7 @@ import { useState } from "react";
 const Settings = ({ navigation }) => {
     const { theme, changeTheme } = useTheme();
     const globalStyles = createGlobalStyles(theme);
-    const [selectedTheme, setSelectedTheme] = useState('Automatic');
+    const [selectedTheme, setSelectedTheme] = useState('Dark');
 
     const handleCheckboxPress = (theme) => {
         setSelectedTheme(theme);
@@ -25,17 +25,17 @@ const Settings = ({ navigation }) => {
                 <SmallHeader title="Settings" />
             </View>
             <View style={styles.settingsContainer}>
-                <MyText style={[{ marginLeft: 10, marginBottom: 5, color: theme.text, fontSize: 13 }]}>Theme</MyText>
+                <MyText style={[{ marginLeft: 10, marginBottom: 5, color: theme.black, fontSize: 13 }]}>Theme</MyText>
                 <View style={[styles.themeContainer, { borderColor: theme.blackTransparent }]}>
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Ionicons name="contrast-outline" size={20} color={theme.text} style={{ marginRight: 10 }} />
-                            <MyText style={{ fontSize: 15, color: theme.text }}>Automatic</MyText>
+                            <Ionicons name="contrast-outline" size={20} color={theme.black} style={{ marginRight: 10 }} />
+                            <MyText style={{ fontSize: 15, color: theme.black }}>Automatic</MyText>
                         </View>
                         <CheckBox
                             checked={selectedTheme === 'Automatic'}
                             onPress={() => handleCheckboxPress('Automatic')}
-                            uncheckedColor={theme.text}
+                            uncheckedColor={theme.black}
                             checkedColor={theme.primary}
                             checkedIcon="check-circle"
                             uncheckedIcon="circle-o"
@@ -47,13 +47,13 @@ const Settings = ({ navigation }) => {
 
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Ionicons name="sunny-outline" size={20} color={theme.text} style={{ marginRight: 10 }} />
-                            <MyText style={{ fontSize: 15, color: theme.text }}>Light</MyText>
+                            <Ionicons name="sunny-outline" size={20} color={theme.black} style={{ marginRight: 10 }} />
+                            <MyText style={{ fontSize: 15, color: theme.black }}>Light</MyText>
                         </View>
                         <CheckBox
                             checked={selectedTheme === 'Light'}
                             onPress={() => handleCheckboxPress('Light')}
-                            uncheckedColor={theme.text}
+                            uncheckedColor={theme.black}
                             checkedColor={theme.primary}
                             checkedIcon="check-circle"
                             uncheckedIcon="circle-o"
@@ -65,13 +65,13 @@ const Settings = ({ navigation }) => {
 
                     <View style={styles.singleThemeContainer}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Ionicons name="moon-outline" size={20} color={theme.text} style={{ marginRight: 10 }} />
-                            <MyText style={{ fontSize: 15, color: theme.text }}>Dark</MyText>
+                            <Ionicons name="moon-outline" size={20} color={theme.black} style={{ marginRight: 10 }} />
+                            <MyText style={{ fontSize: 15, color: theme.black }}>Dark</MyText>
                         </View>
                         <CheckBox
                             checked={selectedTheme === 'Dark'}
                             onPress={() => handleCheckboxPress('Dark')}
-                            uncheckedColor={theme.text}
+                            uncheckedColor={theme.black}
                             checkedColor={theme.primary}
                             checkedIcon="check-circle"
                             uncheckedIcon="circle-o"

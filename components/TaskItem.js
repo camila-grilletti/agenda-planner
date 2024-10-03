@@ -14,9 +14,10 @@ const TaskItem = ({ task, onDelete }) => {
 
     const handleCheckboxPress = () => {
         setIsChecked(!isChecked);
+        onDelete(task.id);
     };
 
-    const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : theme.text;
+    const textColor = task.tagColor ? getTextColorForBackground(task.tagColor) : theme.black;
 
     const handleSwipeComplete = () => {
         Animated.timing(translateX, {
@@ -58,14 +59,14 @@ const TaskItem = ({ task, onDelete }) => {
                 <CheckBox
                     checked={isChecked}
                     onPress={handleCheckboxPress}
-                    uncheckedColor={theme.white}
-                    checkedColor={theme.white}
+                    uncheckedColor="white"
+                    checkedColor="white"
                     checkedIcon="check-circle"
                     uncheckedIcon="circle-o"
                     containerStyle={styles.checkboxContainer}
                 />
                 <View style={styles.taskTextContainer}>
-                    <MyText style={[styles.taskTextTitle, { color: theme.white }]}>{task.task}</MyText>
+                    <MyText style={[styles.taskTextTitle, { color: "white" }]}>{task.task}</MyText>
                     {task.tagName && (
                         <View style={[globalStyles.taskTag, { backgroundColor: task.tagColor }]}>
                             <MyText style={[{ color: textColor, fontSize: 10 }]}>{task.tagName}</MyText>

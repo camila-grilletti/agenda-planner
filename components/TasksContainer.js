@@ -12,7 +12,7 @@ const TaskContainer = ({ tasks, onDeleteTask }) => {
             <View style={styles.tasksInfoContainer}>
                 <SubHeader title="To-dos" />
                 {tasks.length > 0 && (
-                    <MyText style={[styles.tasksCount, { backgroundColor: theme.primary, color: theme.white }]}>
+                    <MyText style={[styles.tasksCount, { backgroundColor: theme.primary, color: "white" }]}>
                         {tasks.length} task{tasks.length > 1 && "s"}
                     </MyText>
                 )}

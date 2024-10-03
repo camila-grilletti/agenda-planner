@@ -54,7 +54,7 @@ const AllTags = () => {
     return (
         <View style={styles.container}>
             {tagsWithColors.length > 0 && (
-                <MyText style={[{ marginTop: 20, color: theme.text, fontSize: 15 }]}>Your tags</MyText>
+                <MyText style={[{ marginTop: 20, color: theme.black, fontSize: 15 }]}>Your tags</MyText>
             )}
             <View style={styles.tagsContainer}>
                 {tagsWithColors.map((tag) => (
@@ -78,7 +78,7 @@ const AllTags = () => {
                             <Ionicons
                                 name="close-outline"
                                 size={17}
-                                color={theme.white}
+                                color="white"
                                 style={styles.tagIconClose}
                             />
                         </TouchableOpacity>
@@ -92,6 +92,7 @@ const AllTags = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingHorizontal: 10
     },
     tagsContainer: {
         flexDirection: 'row',

@@ -8,7 +8,7 @@ const InputComponent = ({ label, placeholder, value, onChangeText, multiline = f
     const globalStyles = createGlobalStyles(theme);
 
     return (
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, { backgroundColor: theme.backgroundColor }]}>
             {label && <MyText style={globalStyles.inputLabel}>{label}</MyText>}
             <TextInput
                 style={[
@@ -18,6 +18,7 @@ const InputComponent = ({ label, placeholder, value, onChangeText, multiline = f
                     style
                 ]}
                 placeholder={placeholder}
+                placeholderTextColor={theme.blackTransparent}
                 value={value}
                 onChangeText={onChangeText}
                 multiline={multiline}

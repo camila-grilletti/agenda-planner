@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import TodayScreen from "../screens/TodayScreen";
@@ -45,6 +45,7 @@ function TabNavigator() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: theme.background,
+                    borderTopColor: theme.blackTransparent,
                 },
                 headerShown: false,
             })}
@@ -73,8 +74,16 @@ export default function AppNavigator() {
 
     return (
         <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <NavigationContainer theme={{ ...DefaultTheme, colors: { ...DefaultTheme.colors, background: theme.background } }}>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerShown: false,
+                        presentation: 'card',
+                        cardOverlayEnabled: true,
+                        ...TransitionPresets.SlideFromRightIOS,
+                        cardStyle: { backgroundColor: theme.background },
+                    }}
+                >
                     <Stack.Screen name="Tabs" component={TabNavigator} />
                     <Stack.Screen name="Tag" component={AddTagForm} />
                     <Stack.Screen name="Color" component={AddColorForm} />

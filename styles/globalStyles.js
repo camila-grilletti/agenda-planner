@@ -1,5 +1,3 @@
-import { StyleSheet } from 'react-native';
-
 export const colors = {
     primary: 'tomato',
     secondary: '#333',
@@ -22,24 +20,25 @@ export const createGlobalStyles = (theme) => ({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: theme.background,
     },
     fontFamily: {
         fontFamily: "Poppins",
     },
     text: {
         fontSize: 18,
-        color: colors.secondary,
+        color: theme.secondary,
         fontFamily: "Poppins",
     },
     input: {
         height: 50,
-        borderColor: colors.white,
+        borderColor: theme.inputComponentBackground,
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,
-        backgroundColor: colors.white,
+        backgroundColor: theme.white,
         fontSize: 16,
-        color: colors.secondary,
+        color: theme.black,
         marginBottom: 15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -48,11 +47,11 @@ export const createGlobalStyles = (theme) => ({
     inputLabel: {
         fontSize: 13,
         marginBottom: 10,
-        color: colors.inactive,
+        color: theme.inactive,
         fontFamily: 'Poppins',
     },
     button: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.primary,
         borderRadius: 8,
         paddingVertical: 12,
         paddingHorizontal: 20,
@@ -64,16 +63,16 @@ export const createGlobalStyles = (theme) => ({
         alignItems: 'center',
     },
     linkText: {
-        color: colors.primary,
+        color: theme.primary,
         fontSize: 16,
         fontWeight: 'bold',
         fontFamily: 'Poppins',
     },
     buttonPressed: {
-        backgroundColor: colors.secondary,
+        backgroundColor: theme.secondary,
     },
     buttonText: {
-        color: colors.white,
+        color: theme.white,
         fontSize: 16,
         fontWeight: 'bold',
         fontFamily: 'Poppins',
@@ -83,16 +82,19 @@ export const createGlobalStyles = (theme) => ({
         fontWeight: '600',
         fontFamily: 'Poppins-Medium',
         marginBottom: -5,
+        color: theme.black
     },
     textSmallHeader: {
         fontSize: 20,
         fontFamily: 'Poppins',
-        marginTop: 5
+        marginTop: 5,
+        color: theme.black
     },
     textSubHeader: {
         fontSize: 18,
         fontWeight: '600',
         fontFamily: 'Poppins-Medium',
+        color: theme.black
     },
     taskTag: {
         paddingVertical: 1,

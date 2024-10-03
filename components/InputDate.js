@@ -13,7 +13,7 @@ const InputDate = ({ label, value, onPressFn }) => {
         <View style={styles.inputContainer}>
             {label && <MyText style={globalStyles.inputLabel}>{label}</MyText>}
             <View style={[globalStyles.input, styles.row]}>
-                <MyText style={[styles.fullWidthInput, {fontSize: 15}]}>
+                <MyText style={[styles.fullWidthInput, { fontSize: 15, color: theme.black }]}>
                     {value}
                 </MyText>
                 <TouchableOpacity onPress={onPressFn} style={styles.iconButton}>

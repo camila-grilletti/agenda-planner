@@ -43,7 +43,7 @@ const TodayScreen = ({ navigation }) => {
                             style={styles.image}
                             resizeMode="contain"
                         />
-                        <MyText style={[styles.textNoTask, { color: theme.text }]}>Enjoy your day! ❤️</MyText>
+                        <MyText style={[styles.textNoTask, { color: theme.black }]}>Enjoy your day! ❤️</MyText>
                     </View>
                 )
             )}

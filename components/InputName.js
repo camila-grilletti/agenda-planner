@@ -6,7 +6,7 @@ const InputName = ({ placeholder, value, onChangeInput }) => {
 
     return (
         <TextInput
-            style={[styles.inputName, { color: theme.text, borderColor: 'transparent', backgroundColor: theme.backgroundColor }]}
+            style={[styles.inputName, { color: theme.black, borderColor: 'transparent', backgroundColor: theme.backgroundColor }]}
             placeholder={placeholder}
             placeholderTextColor={theme.inactive}
             value={value}

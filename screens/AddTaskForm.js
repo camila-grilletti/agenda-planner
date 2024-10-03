@@ -98,7 +98,7 @@ const AddTaskForm = () => {
     };
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={'padding'}>
+        <KeyboardAvoidingView style={{ flex: 1, backgroundColor: theme.backgroundColor }} behavior={'padding'}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.containerSmallHeader}>
                     <SmallHeader title="Create Task" />
@@ -120,7 +120,7 @@ const AddTaskForm = () => {
                     onChangeText={setDescription}
                     multiline={true}
                     numberOfLines={4}
-                    style={[styles.textArea, { borderColor: theme.white }]}
+                    style={[styles.textArea, { borderColor: theme.inputComponentBackground }]}
                 />
                 <InputDate
                     label="Date"
@@ -137,11 +137,11 @@ const AddTaskForm = () => {
                 )}
 
                 <View style={styles.pickerContainerMain}>
-                    <View style={[styles.pickerContainer, { borderColor: theme.white }]}>
+                    <View style={[styles.pickerContainer, { borderColor: theme.inputComponentBackground }]}>
                         <Picker
                             selectedValue={tagId}
                             onValueChange={(itemValue) => setTagId(itemValue)}
-                            style={[styles.picker, { backgroundColor: theme.white, borderColor: theme.white }]}
+                            style={[styles.picker, { backgroundColor: theme.white, color: theme.black }]}
                             dropdownIconColor={theme.primary}
                         >
                             <Picker.Item label="Select a tag..." value={null} />

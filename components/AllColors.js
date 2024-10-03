@@ -39,7 +39,7 @@ const AllColors = () => {
 
     return (
         <View style={styles.container}>
-            {allColors.length > 0 && <MyText style={[{ marginTop: 20, color: theme.text, fontSize: 15 }]}>Your colors</MyText>}
+            {allColors.length > 0 && <MyText style={[{ marginTop: 20, color: theme.black, fontSize: 15 }]}>Your colors</MyText>}
             <View style={styles.colorsContainer}>
                 {allColors.map((color) => (
                     <TouchableOpacity
@@ -52,7 +52,7 @@ const AllColors = () => {
                                 { backgroundColor: color.name },
                             ]}
                         >
-                            <Ionicons name="close-outline" size={17} color={theme.white} style={styles.colorIconClose} />
+                            <Ionicons name="close-outline" size={17} color={theme.black} style={styles.colorIconClose} />
                         </View>
                     </TouchableOpacity>
                 ))}
