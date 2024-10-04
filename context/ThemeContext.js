@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 const themes = {
     Automatic: {
@@ -65,13 +65,15 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     const [currentTheme, setCurrentTheme] = useState('Automatic');
+    const [themeVersion, setThemeVersion] = useState(0);
 
     const changeTheme = (theme) => {
         setCurrentTheme(theme);
+        setThemeVersion((prevVersion) => prevVersion + 1);
     };
 
     return (
-        <ThemeContext.Provider value={{ theme: themes[currentTheme], changeTheme }}>
+        <ThemeContext.Provider value={{ theme: themes[currentTheme], changeTheme, themeVersion }}>
             {children}
         </ThemeContext.Provider>
     );

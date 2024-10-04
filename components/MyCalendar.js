@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '../context/ThemeContext';
@@ -7,19 +7,53 @@ import MyText from './MyText';
 import { TasksContext } from "../context/TasksContext";
 
 const MyCalendar = () => {
-    const { theme } = useTheme();
+    const { theme, themeVersion } = useTheme();
     const { tasks, loading, handleDeleteTask } = useContext(TasksContext);
     const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA'));
+    const [markedDates, setMarkedDates] = useState({});
 
     const handleDayPress = (day) => {
         setSelectedDate(day.dateString);
     };
 
-    const getTaskColor = (taskCount) => {
+    const getTaskColor = useCallback((taskCount) => {
         if (taskCount === 1) return theme.greenState;
         if (taskCount > 1 && taskCount <= 3) return theme.yellowState;
         return theme.redState;
-    };
+    }, [theme]);
+
+    useEffect(() => {
+        const updatedMarkedDates = {
+            ...Object.keys(tasks).reduce((acc, date) => {
+                const taskCount = tasks[date].length;
+                acc[date] = {
+                    customStyles: {
+                        container: {
+                            backgroundColor: getTaskColor(taskCount),
+                            borderRadius: 8,
+                        },
+                        text: {
+                            color: theme.black,
+                        },
+                    },
+                };
+                return acc;
+            }, {}),
+            [selectedDate]: {
+                selected: true,
+                customStyles: {
+                    container: {
+                        backgroundColor: theme.primary,
+                        borderRadius: 20,
+                    },
+                    text: {
+                        color: theme.black,
+                    },
+                },
+            },
+        };
+        setMarkedDates(updatedMarkedDates);
+    }, [theme, tasks, selectedDate, getTaskColor]);
 
     return (
         <View style={styles.container}>
@@ -30,35 +64,8 @@ const MyCalendar = () => {
             ) : (
                 <>
                     <Calendar
-                        markedDates={{
-                            ...Object.keys(tasks).reduce((acc, date) => {
-                                const taskCount = tasks[date].length;
-                                acc[date] = {
-                                    customStyles: {
-                                        container: {
-                                            backgroundColor: getTaskColor(taskCount),
-                                            borderRadius: 8,
-                                        },
-                                        text: {
-                                            color: theme.black,
-                                        },
-                                    },
-                                };
-                                return acc;
-                            }, {}),
-                            [selectedDate]: {
-                                selected: true,
-                                customStyles: {
-                                    container: {
-                                        backgroundColor: theme.primary,
-                                        borderRadius: 20,
-                                    },
-                                    text: {
-                                        color: theme.black,
-                                    },
-                                },
-                            },
-                        }}
+                        key={themeVersion}
+                        markedDates={markedDates}
                         markingType={'custom'}
                         onDayPress={handleDayPress}
                         theme={{
