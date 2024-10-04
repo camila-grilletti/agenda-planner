@@ -38,6 +38,26 @@ export const createTable = async () => {
         );
     `);
 
+    // THEMES
+    await database.execAsync(`
+        CREATE TABLE IF NOT EXISTS theme (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            name TEXT NOT NULL,
+            selected BOOL NOT NULL DEFAULT 0
+        );
+    `);
+
+    await database.runAsync(`
+        INSERT INTO theme (name, selected)
+        SELECT 'Light', 1
+        WHERE NOT EXISTS (SELECT 1 FROM theme WHERE name = 'Light');
+    `);
+
+    await database.runAsync(`
+        INSERT INTO theme (name, selected)
+        SELECT 'Dark', 0
+        WHERE NOT EXISTS (SELECT 1 FROM theme WHERE name = 'Dark');
+    `);
     await database.runAsync(`
         INSERT INTO colors (name)
         SELECT '#FF6347'
@@ -70,6 +90,18 @@ export const editTask = async (id, newTitle, newDescription, newDate, newTagId, 
         newTime,
         id
     );
+};
+
+export const updateSelectedTheme = async (themeName) => {
+    const database = await db;
+    await database.runAsync(`UPDATE theme SET selected = 0`);
+    await database.runAsync(`UPDATE theme SET selected = 1 WHERE name = ?`, [themeName]);
+};
+
+export const getSelectedTheme = async () => {
+    const database = await db;
+    const result = await database.getAllAsync(`SELECT name FROM theme WHERE selected = 1`);
+    return result.length ? result[0].name : null;
 };
 
 export const deleteTask = async (id) => {

@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react';
+import {getSelectedTheme, updateSelectedTheme} from "../db/tasks";
 
 const themes = {
     Automatic: {
@@ -64,16 +65,29 @@ const themes = {
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    const [currentTheme, setCurrentTheme] = useState('Automatic');
+    const [currentTheme, setCurrentTheme] = useState(null);
     const [themeVersion, setThemeVersion] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    const changeTheme = (theme) => {
+    useEffect(() => {
+        const fetchThemeFromDB = async () => {
+            const savedTheme = await getSelectedTheme();
+            setCurrentTheme(savedTheme || 'Light');
+            setLoading(false);
+        };
+        fetchThemeFromDB();
+    }, []);
+
+    const changeTheme = async (theme) => {
         setCurrentTheme(theme);
         setThemeVersion((prevVersion) => prevVersion + 1);
+        await updateSelectedTheme(theme);
     };
 
+    if (loading) return null;
+
     return (
-        <ThemeContext.Provider value={{ theme: themes[currentTheme], changeTheme, themeVersion }}>
+        <ThemeContext.Provider value={{ theme: themes[currentTheme], changeTheme, themeVersion, currentTheme }}>
             {children}
         </ThemeContext.Provider>
     );
