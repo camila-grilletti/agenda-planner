@@ -38,6 +38,7 @@ const AddTaskForm = () => {
         if (title && date) {
             try {
                 const formattedDate = date.toLocaleDateString('en-CA');
+                const formattedTime = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
 
                 await addTask(
                     title,
@@ -45,7 +46,7 @@ const AddTaskForm = () => {
                     formattedDate,
                     tagId,
                     colorId,
-                    time.toISOString().split('T')[1].slice(0, 5)
+                    formattedTime
                 );
                 Toast.show({
                     type: 'success',

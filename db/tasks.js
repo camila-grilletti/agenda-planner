@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import {scheduleTaskNotification} from "./notifications";
 
 const db = SQLite.openDatabaseAsync('tasks.db');
 
@@ -76,6 +77,26 @@ export const addTask = async (title, description, date, tagId, colorId, time) =>
         colorId,
         time
     );
+
+    const result = await database.getAllAsync(
+        'SELECT id FROM tasks ORDER BY id DESC LIMIT 1'
+    );
+
+    const newTaskId = result[0].id;
+
+    const newTask = {
+        id: newTaskId,
+        title,
+        description,
+        date,
+        tagId,
+        colorId,
+        time,
+    };
+
+    await scheduleTaskNotification(newTask);
+
+    return newTask;
 };
 
 export const editTask = async (id, newTitle, newDescription, newDate, newTagId, newColorId, newTime) => {
@@ -90,6 +111,16 @@ export const editTask = async (id, newTitle, newDescription, newDate, newTagId, 
         newTime,
         id
     );
+
+    const updatedTask = {
+        id,
+        title: newTitle,
+        description: newDescription,
+        date: newDate,
+        time: newTime,
+    };
+
+    await scheduleTaskNotification(updatedTask);
 };
 
 export const updateSelectedTheme = async (themeName) => {

@@ -14,7 +14,7 @@ export const TasksProvider = ({ children }) => {
 
             const tasksByDate = await result.reduce(async (accPromise, task) => {
                 const acc = await accPromise;
-                const { date, id, title, description, tagId, colorId } = task;
+                const { date, id, title, description, tagId, colorId, time } = task;
 
                 if (!acc[date]) {
                     acc[date] = [];
@@ -35,7 +35,7 @@ export const TasksProvider = ({ children }) => {
                     color = await getColorId(colorId);
                 }
 
-                acc[date].push({ id, task: title, description: description, tagName, tagColor, color });
+                acc[date].push({ id, task: title, description: description, tagName, tagColor, color, time });
                 return acc;
             }, Promise.resolve({}));
 

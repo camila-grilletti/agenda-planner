@@ -27,9 +27,17 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Poppins-Regular.ttf"]
+          "fonts": [
+            "./assets/fonts/Poppins-Regular.ttf"
+          ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9442d295-ef4e-4e44-80a9-90816eb7fa6c"
+      }
+    },
+    "owner": "camigrilletti"
   }
 }
