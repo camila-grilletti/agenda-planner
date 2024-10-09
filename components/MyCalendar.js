@@ -5,6 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 import TaskContainer from "./TasksContainer";
 import MyText from './MyText';
 import { TasksContext } from "../context/TasksContext";
+import {colors} from "../styles/globalStyles";
 
 const MyCalendar = () => {
     const { theme, themeVersion } = useTheme();
@@ -47,7 +48,7 @@ const MyCalendar = () => {
                         borderRadius: 20,
                     },
                     text: {
-                        color: theme.black,
+                        color: colors.white,
                     },
                 },
             },

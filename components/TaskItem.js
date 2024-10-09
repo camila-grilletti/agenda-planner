@@ -4,7 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { CheckBox } from '@rneui/themed';
 import MyText from './MyText';
 import { getTextColorForBackground } from '../utils/utils';
-import {createGlobalStyles} from "../styles/globalStyles";
+import {colors, createGlobalStyles} from "../styles/globalStyles";
 
 const TaskItem = ({ task, onDelete }) => {
     const { theme } = useTheme();
@@ -73,7 +73,7 @@ const TaskItem = ({ task, onDelete }) => {
                         </View>
                     )}
                     {task.description && (
-                        <MyText style={[styles.taskTextDescription, { color: theme.whiteTransparent }]}>
+                        <MyText style={[styles.taskTextDescription, { color: colors.whiteTransparent }]}>
                             {task.description}
                         </MyText>
                     )}
