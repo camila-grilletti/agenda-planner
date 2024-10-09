@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import {scheduleTaskNotification} from "./notifications";
+import {cancelTaskNotification, scheduleTaskNotification} from "./notifications";
 
 const db = SQLite.openDatabaseAsync('tasks.db');
 
@@ -16,10 +16,12 @@ export const createTable = async () => {
             tagId INTEGER, 
             colorId INTEGER, 
             time TEXT,
+            notificationId TEXT,
             FOREIGN KEY (tagId) REFERENCES tags(id),
             FOREIGN KEY (colorId) REFERENCES colors(id)
         );
     `);
+
 
     // TAGS
     await database.execAsync(`
@@ -94,7 +96,12 @@ export const addTask = async (title, description, date, tagId, colorId, time) =>
         time,
     };
 
-    await scheduleTaskNotification(newTask);
+    const notificationId = await scheduleTaskNotification(newTask);
+    await database.runAsync(
+        'UPDATE tasks SET notificationId = ? WHERE id = ?',
+        notificationId,
+        newTaskId
+    );
 
     return newTask;
 };
@@ -137,8 +144,16 @@ export const getSelectedTheme = async () => {
 
 export const deleteTask = async (id) => {
     const database = await db;
+
+    const task = await database.getAllAsync('SELECT notificationId FROM tasks WHERE id = ?', id);
+
+    if (task[0]?.notificationId) {
+        await cancelTaskNotification(task[0].notificationId)
+    }
+
     await database.runAsync('DELETE FROM tasks WHERE id = ?', id);
 };
+
 
 export const getTasks = async () => {
     const database = await db;

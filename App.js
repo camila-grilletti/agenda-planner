@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import AppNavigator from "./navigation/AppNavigator";
-import { createTable } from './db/tasks';
+import { createTable, dropTables } from './db/tasks';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { TasksProvider } from "./context/TasksContext";
@@ -33,7 +33,6 @@ export default function App() {
         }
         createTable();
 
-        // Registrar permisos de notificación
         requestNotificationPermissions();
     }, [loaded, error]);
 
@@ -68,7 +67,6 @@ function AppContent() {
     );
 }
 
-// Función para solicitar permisos de notificación
 async function requestNotificationPermissions() {
     const { status } = await Notifications.requestPermissionsAsync();
 
